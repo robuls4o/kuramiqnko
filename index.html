@@ -16,168 +16,172 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
             font-family: 'Press Start 2P', 'Comic Sans MS', cursive;
             background: #000;
             color: #fff;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
             user-select: none;
             animation: screenShake 0.3s infinite;
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><text x="0" y="28" font-size="28">🍆</text></svg>') 16 16, auto;
         }
 
-        /* Canvas за интерактивни частици */
         #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* зад всичко */
-            pointer-events: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
         }
 
         @keyframes screenShake {
             0% { transform: translate(0); }
-            25% { transform: translate(-3px, 2px); }
-            50% { transform: translate(3px, -1px); }
-            75% { transform: translate(-1px, 3px); }
+            25% { transform: translate(-2px, 1px); }
+            50% { transform: translate(2px, -1px); }
+            75% { transform: translate(-1px, 2px); }
             100% { transform: translate(0); }
         }
 
         .mega-shake {
             animation: megaShake 0.5s ease-out;
         }
-
         @keyframes megaShake {
             0% { transform: translate(0); }
-            10% { transform: translate(-20px, 10px); }
-            20% { transform: translate(20px, -15px); }
-            30% { transform: translate(-15px, 20px); }
-            40% { transform: translate(15px, -10px); }
-            50% { transform: translate(-10px, 15px); }
-            60% { transform: translate(10px, -20px); }
-            70% { transform: translate(-5px, 10px); }
-            80% { transform: translate(5px, -5px); }
-            90% { transform: translate(-2px, 3px); }
+            10% { transform: translate(-12px, 6px); }
+            20% { transform: translate(12px, -8px); }
+            30% { transform: translate(-8px, 12px); }
+            40% { transform: translate(8px, -6px); }
+            50% { transform: translate(-6px, 8px); }
+            60% { transform: translate(6px, -12px); }
+            70% { transform: translate(-4px, 6px); }
+            80% { transform: translate(4px, -4px); }
+            90% { transform: translate(-2px, 2px); }
             100% { transform: translate(0); }
         }
 
         #no-scope-overlay {
-            position: fixed;
-            top: 50%; left: 50%;
+            position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0);
             font-family: 'Permanent Marker', cursive;
-            font-size: 5rem;
+            font-size: clamp(2.5rem, 8vw, 4rem);
             color: #f0f;
-            text-shadow: 0 0 30px #ff0, 0 0 60px #0ff;
-            z-index: 998;
-            pointer-events: none;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 0 0 20px #ff0, 0 0 40px #0ff;
+            z-index: 998; pointer-events: none;
+            transition: transform 0.3s;
+            white-space: nowrap;
         }
         #no-scope-overlay.show {
-            transform: translate(-50%, -50%) scale(1.5);
+            transform: translate(-50%, -50%) scale(1.2);
             animation: noScopeFade 0.8s ease-out forwards;
         }
         @keyframes noScopeFade {
-            0% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
         }
 
         .floating-camera {
-            position: fixed; font-size: 3rem; opacity: 0.3; pointer-events: none; z-index: 0;
-            animation: floatCamera linear infinite; filter: drop-shadow(0 0 10px #0ff);
+            position: fixed; font-size: 2rem; opacity: 0.2; pointer-events: none; z-index: 0;
+            animation: floatCamera linear infinite; filter: drop-shadow(0 0 6px #0ff);
         }
         @keyframes floatCamera {
             0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            20% { transform: translate(80px, 150px) rotate(90deg) scale(1.2); }
-            40% { transform: translate(-60px, 250px) rotate(180deg) scale(0.8); }
-            60% { transform: translate(100px, 50px) rotate(270deg) scale(1.1); }
-            80% { transform: translate(-30px, 200px) rotate(360deg) scale(0.9); }
+            20% { transform: translate(50px, 80px) rotate(90deg) scale(1.1); }
+            40% { transform: translate(-30px, 140px) rotate(180deg) scale(0.85); }
+            60% { transform: translate(60px, 30px) rotate(270deg) scale(1.05); }
+            80% { transform: translate(-15px, 110px) rotate(360deg) scale(0.9); }
             100% { transform: translate(0, 0) rotate(0deg) scale(1); }
         }
 
         .mlg-float {
-            position: fixed; font-size: 2rem; opacity: 0.4; pointer-events: none; z-index: 1;
+            position: fixed; font-size: 1.5rem; opacity: 0.3; pointer-events: none; z-index: 1;
             animation: mlgFloat linear infinite;
         }
         @keyframes mlgFloat {
-            0% { transform: translateY(0) rotate(0); opacity: 0.3; }
+            0% { transform: translateY(0) rotate(0); opacity: 0.25; }
             100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
         .kill-feed {
-            position: fixed; top: 20px; right: 20px; z-index: 999;
-            background: rgba(0,0,0,0.8); border: 2px solid #0f0; padding: 10px 20px;
-            font-family: 'Courier New', monospace; font-size: 1.2rem; color: #0f0;
-            border-radius: 8px; box-shadow: 0 0 20px #0f0; max-width: 250px;
+            position: fixed; top: 10px; right: 10px; z-index: 999;
+            background: rgba(0,0,0,0.8); border: 2px solid #0f0; padding: 6px 10px;
+            font-family: 'Courier New', monospace; font-size: 0.8rem; color: #0f0;
+            border-radius: 6px; box-shadow: 0 0 12px #0f0; max-width: 200px;
         }
-        .kill-feed p { margin: 5px 0; animation: fadeInOut 3s ease-in-out; }
+        .kill-feed p { margin: 2px 0; animation: fadeInOut 3s ease-in-out; }
         @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateX(50px); }
+            0% { opacity: 0; transform: translateX(20px); }
             20% { opacity: 1; transform: translateX(0); }
             80% { opacity: 1; }
-            100% { opacity: 0; transform: translateX(-20px); }
+            100% { opacity: 0; transform: translateX(-10px); }
         }
 
         .container {
-            position: relative; z-index: 10; background: rgba(10,10,10,0.9);
-            border: 6px solid #ff0; border-radius: 40px; padding: 25px;
-            box-shadow: 0 0 50px #f0f, 0 0 100px #0ff, inset 0 0 30px #0f0;
-            text-align: center; max-width: 800px; width: 90%;
+            position: relative; z-index: 10;
+            background: rgba(10,10,10,0.9);
+            border: 3px solid #ff0; border-radius: 25px; padding: 12px 15px;
+            box-shadow: 0 0 25px #f0f, 0 0 50px #0ff, inset 0 0 15px #0f0;
+            text-align: center;
+            width: min(95vw, 600px);
+            max-height: 96vh;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
             animation: pulseBorder 1.5s infinite alternate;
         }
         @keyframes pulseBorder {
-            0% { border-color: #ff0; box-shadow: 0 0 40px #f0f, 0 0 80px #0ff; }
-            50% { border-color: #0ff; box-shadow: 0 0 70px #0f0, 0 0 120px #ff0; }
-            100% { border-color: #f0f; box-shadow: 0 0 40px #ff0, 0 0 80px #f0f; }
+            0% { border-color: #ff0; box-shadow: 0 0 20px #f0f, 0 0 40px #0ff; }
+            50% { border-color: #0ff; box-shadow: 0 0 35px #0f0, 0 0 60px #ff0; }
+            100% { border-color: #f0f; box-shadow: 0 0 20px #ff0, 0 0 40px #f0f; }
         }
         .container::before {
-            content: ''; position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px;
-            border: 3px dashed #ff0; border-radius: 50px; animation: dashRotate 4s linear infinite;
+            content: ''; position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px;
+            border: 2px dashed #ff0; border-radius: 30px; animation: dashRotate 4s linear infinite;
             pointer-events: none;
         }
         @keyframes dashRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         h1 {
-            font-size: 3rem; margin: 0 0 20px; font-family: 'Permanent Marker', cursive;
-            color: #0f0; text-shadow: 4px 4px 0 #000, 0 0 20px #0f0, 0 0 50px #0ff;
+            font-size: clamp(1.3rem, 3.5vw, 2.2rem);
+            font-family: 'Permanent Marker', cursive;
+            color: #0f0;
+            text-shadow: 2px 2px 0 #000, 0 0 12px #0f0, 0 0 25px #0ff;
             animation: glitch 0.8s infinite, rainbow 2s linear infinite;
+            flex-shrink: 0;
+            margin: 0;
         }
         @keyframes glitch {
             0%, 100% { transform: translate(0); }
-            15% { transform: translate(-5px, 3px); }
-            30% { transform: translate(5px, -3px); }
-            45% { transform: translate(-3px, -3px); }
-            60% { transform: translate(3px, 3px); }
-            75% { transform: translate(-2px, 2px); }
+            15% { transform: translate(-3px, 2px); }
+            30% { transform: translate(3px, -2px); }
+            45% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            75% { transform: translate(-1px, 1px); }
         }
         @keyframes rainbow {
-            0% { color: #f00; }
-            20% { color: #ff0; }
-            40% { color: #0f0; }
-            60% { color: #0ff; }
-            80% { color: #f0f; }
-            100% { color: #f00; }
+            0% { color: #f00; } 20% { color: #ff0; } 40% { color: #0f0; }
+            60% { color: #0ff; } 80% { color: #f0f; } 100% { color: #f00; }
         }
 
         .btn-mlg {
             background: linear-gradient(45deg, #ff0, #f0f); color: #000;
-            border: 4px solid #fff; font-family: 'Press Start 2P', cursive;
-            font-size: 2rem; font-weight: bold; padding: 20px 40px;
-            border-radius: 60px; cursor: pointer; letter-spacing: 5px;
-            text-shadow: 3px 3px 0 #fff; box-shadow: 0 0 40px #ff0, 0 0 80px #f0f;
-            transition: all 0.1s; animation: bounce 1.5s infinite, rainbowBg 3s infinite;
-            position: relative; z-index: 5;
+            border: 2px solid #fff; font-family: 'Press Start 2P', cursive;
+            font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+            font-weight: bold; padding: 10px 18px;
+            border-radius: 40px; cursor: pointer; letter-spacing: 3px;
+            text-shadow: 2px 2px 0 #fff;
+            box-shadow: 0 0 20px #ff0, 0 0 40px #f0f;
+            transition: all 0.1s;
+            animation: bounce 1.5s infinite, rainbowBg 3s infinite;
+            flex-shrink: 0;
         }
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-6px); }
         }
         @keyframes rainbowBg {
             0% { background: linear-gradient(45deg, #f00, #ff0); }
@@ -186,52 +190,60 @@
             75% { background: linear-gradient(45deg, #ff0, #f00); }
             100% { background: linear-gradient(45deg, #f00, #ff0); }
         }
-        .btn-mlg:hover { transform: scale(1.1) rotate(-5deg); box-shadow: 0 0 80px #fff; }
-        .btn-mlg:active { transform: scale(0.9) rotate(5deg); }
+        .btn-mlg:hover { transform: scale(1.08) rotate(-3deg); box-shadow: 0 0 40px #fff; }
+        .btn-mlg:active { transform: scale(0.92) rotate(3deg); }
 
         #label {
-            font-size: 2.5rem; margin: 20px 0; font-weight: 900; color: #0ff;
-            text-shadow: 0 0 20px #0ff, 0 0 50px #0f0; animation: shake 0.4s infinite;
-            min-height: 4rem;
+            font-size: clamp(1.1rem, 3vw, 1.8rem);
+            font-weight: 900; color: #0ff;
+            text-shadow: 0 0 12px #0ff, 0 0 25px #0f0;
+            animation: shake 0.4s infinite;
+            min-height: 2rem;
+            flex-shrink: 0;
+            margin: 0;
         }
         @keyframes shake {
-            0% { transform: translate(2px, 0); }
-            15% { transform: translate(-3px, -2px); }
-            30% { transform: translate(3px, 2px); }
-            45% { transform: translate(-2px, -1px); }
-            60% { transform: translate(1px, 3px); }
-            75% { transform: translate(-1px, -3px); }
-            100% { transform: translate(2px, 0); }
+            0% { transform: translate(1px, 0); }
+            15% { transform: translate(-2px, -1px); }
+            30% { transform: translate(2px, 1px); }
+            45% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 2px); }
+            75% { transform: translate(-1px, -2px); }
+            100% { transform: translate(1px, 0); }
         }
 
         #meme-container {
-            margin: 15px auto;
-            min-height: 280px;
+            flex: 1 1 auto;
+            min-height: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 25px;
+            border-radius: 18px;
+            overflow: hidden;
         }
         #meme-img {
             max-width: 100%;
-            max-height: 80vh; /* адаптивна височина – няма да реже */
-            object-fit: contain; /* цялата снимка, без изрязване */
-            border-radius: 25px;
-            border: 5px solid #ff0;
-            box-shadow: 0 0 40px #f0f, 0 0 80px #0ff;
+            max-height: min(50vh, 400px);
+            object-fit: contain;
+            border-radius: 18px;
+            border: 3px solid #ff0;
+            box-shadow: 0 0 20px #f0f, 0 0 40px #0ff;
             display: none;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: 0.4s;
         }
         .mlg-entry {
-            animation: memeBounce 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: memeBounce 0.7s ease-out;
         }
         @keyframes memeBounce {
             0% { transform: scale(0.2); opacity: 0; }
-            50% { transform: scale(1.1); opacity: 1; }
+            50% { transform: scale(1.08); opacity: 1; }
             100% { transform: scale(1); }
         }
 
-        .loading { color: #0f0; font-style: italic; font-size: 1.5rem; text-shadow: 0 0 15px #0f0; animation: pulseText 0.8s infinite; }
+        .loading {
+            color: #0f0; font-size: clamp(0.8rem, 2vw, 1.1rem);
+            text-shadow: 0 0 8px #0f0; animation: pulseText 0.8s infinite;
+        }
         @keyframes pulseText { 0%,100%{ opacity:1; } 50%{ opacity:0.3; } }
 
         #popup-overlay {
@@ -239,24 +251,27 @@
             background: rgba(0,0,0,0.8); z-index:1000; justify-content: center; align-items: center;
         }
         #popup-box {
-            background: #111; border:4px solid #f0f; border-radius: 30px; padding: 30px;
-            text-align: center; box-shadow: 0 0 60px #f0f; animation: popIn 0.4s;
+            background: #111; border:3px solid #f0f; border-radius: 20px; padding: 20px;
+            text-align: center; box-shadow: 0 0 30px #f0f; animation: popIn 0.4s;
+            width: min(90vw, 350px);
         }
         @keyframes popIn { 0%{ transform: scale(0); } 100%{ transform: scale(1); } }
-        #popup-text { font-size: 2.5rem; color:#0ff; text-shadow: 0 0 20px #0ff; margin-bottom: 20px; }
+        #popup-text {
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            color:#0ff; text-shadow: 0 0 12px #0ff; margin-bottom: 12px;
+        }
         #popup-btn {
-            background: #ff0; color:#000; font-size:2rem; font-weight:bold;
-            padding: 15px 40px; border:none; border-radius: 40px; cursor:pointer;
-            box-shadow: 0 0 25px #ff0; transition: 0.2s;
+            background: #ff0; color:#000; font-size:1.2rem; font-weight:bold;
+            padding: 10px 25px; border:none; border-radius: 30px; cursor:pointer;
+            box-shadow: 0 0 15px #ff0; transition: 0.2s;
         }
         #popup-btn:hover{ transform: scale(1.1); }
 
-        /* Пари конфети */
         .money-confetti {
             position: fixed; pointer-events: none; z-index: 500;
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             animation: moneyFall linear forwards;
-            filter: drop-shadow(0 0 8px gold);
+            filter: drop-shadow(0 0 5px gold);
         }
         @keyframes moneyFall {
             0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
@@ -290,12 +305,14 @@
     <div id="yt-player" style="display:none;"></div>
 
     <script>
-        // ========== Интерактивен фон с частици (Canvas) ==========
+        // ========== ЛЕКИ ЧАСТИЦИ (оптимизирани) ==========
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let width, height;
+        const isMobile = window.innerWidth < 768;
+        const particleCount = isMobile ? 60 : 120;
         const particles = [];
-        const mouse = { x: null, y: null, radius: 100 };
+        const mouse = { x: null, y: null, radius: isMobile ? 50 : 80 };
 
         function resizeCanvas() {
             width = canvas.width = window.innerWidth;
@@ -304,7 +321,6 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        // Слушаме мишката
         window.addEventListener('mousemove', (e) => {
             mouse.x = e.clientX;
             mouse.y = e.clientY;
@@ -321,26 +337,24 @@
             reset() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = (Math.random() * 0.5) - 0.25;
-                this.speedY = (Math.random() * 0.5) - 0.25;
-                this.color = `hsl(${Math.random() * 60 + 180}, 100%, 70%)`; // циан-зелен спектър
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() * 0.3) - 0.15;
+                this.speedY = (Math.random() * 0.3) - 0.15;
+                this.color = `hsl(${Math.random() * 60 + 180}, 100%, 70%)`;
             }
             update() {
-                // Леко привличане/отблъскване от мишката
                 if (mouse.x && mouse.y) {
                     const dx = this.x - mouse.x;
                     const dy = this.y - mouse.y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < mouse.radius) {
                         const force = (mouse.radius - dist) / mouse.radius;
-                        this.x += (dx / dist) * force * 0.5;
-                        this.y += (dy / dist) * force * 0.5;
+                        this.x += (dx / dist) * force * 0.2;
+                        this.y += (dy / dist) * force * 0.2;
                     }
                 }
                 this.x += this.speedX;
                 this.y += this.speedY;
-                // Опаковане на краищата
                 if (this.x < 0) this.x = width;
                 if (this.x > width) this.x = 0;
                 if (this.y < 0) this.y = height;
@@ -354,8 +368,7 @@
             }
         }
 
-        // Инициализация на частици
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < particleCount; i++) {
             particles.push(new Particle());
         }
 
@@ -365,19 +378,21 @@
                 p.update();
                 p.draw();
             });
-            // Невидими линии между близки частици (сложен мрежов ефект)
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 50) {
-                        ctx.strokeStyle = `rgba(0, 255, 255, ${0.1 * (1 - dist / 50)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
+            // Рисуваме линии само ако не е мобилно (пестим ресурси)
+            if (!isMobile) {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 40) {
+                            ctx.strokeStyle = `rgba(0, 255, 255, ${0.08 * (1 - dist / 40)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
                     }
                 }
             }
@@ -385,46 +400,47 @@
         }
         animateParticles();
 
-        // ========== Плаващи камери + MLG иконки ==========
+        // ========== ПЛАВАЩИ ЕЛЕМЕНТИ (намалени за мобилно) ==========
         function createFloatingElements() {
-            const cameras = ['📷','📸','📹','🔭','Sony','α7','GM','FE','24-70'];
-            for (let i=0; i<12; i++) {
+            const cameras = ['📷','📸','📹','Sony','α7','GM'];
+            const camCount = isMobile ? 6 : 12;
+            for (let i=0; i<camCount; i++) {
                 const el = document.createElement('div');
                 el.className = 'floating-camera';
                 el.textContent = cameras[Math.floor(Math.random()*cameras.length)];
                 el.style.left = Math.random()*90+'%';
                 el.style.top = Math.random()*90+'%';
-                el.style.fontSize = (2.5+Math.random()*4)+'rem';
-                el.style.animationDuration = (18+Math.random()*25)+'s';
-                el.style.animationDelay = Math.random()*8+'s';
+                el.style.fontSize = (1.8+Math.random()*2.5)+'rem';
+                el.style.animationDuration = (15+Math.random()*20)+'s';
+                el.style.animationDelay = Math.random()*6+'s';
                 document.body.appendChild(el);
             }
-            const icons = ['🌀','💣','🔫','🎯','㊙','💀','🔥','👌','😎'];
-            for (let i=0; i<15; i++) {
+            const icons = ['🌀','💣','🔫','🎯','💀','🔥','👌','😎'];
+            const iconCount = isMobile ? 8 : 15;
+            for (let i=0; i<iconCount; i++) {
                 const icon = document.createElement('div');
                 icon.className = 'mlg-float';
                 icon.textContent = icons[Math.floor(Math.random()*icons.length)];
                 icon.style.left = Math.random()*100+'%';
                 icon.style.top = Math.random()*100+'%';
-                icon.style.animationDuration = (5+Math.random()*10)+'s';
-                icon.style.animationDelay = Math.random()*5+'s';
+                icon.style.animationDuration = (4+Math.random()*8)+'s';
+                icon.style.animationDelay = Math.random()*4+'s';
                 document.body.appendChild(icon);
             }
         }
         window.addEventListener('DOMContentLoaded', createFloatingElements);
 
-        // ======== Kill feed ========
+        // ========== KILL FEED ==========
         const killFeedMsgs = [
-            'xX_KUR_MI_Xx 🔫 КЪСМЕТЧЕ',
-            'MLG_360_QUICKSCOPE 👌 БОЙКО',
-            'TRIPLE_COLLAT 💀 БАБА МАРТА',
-            'NO_SCOPE_HEADSHOT 🎯 РАДЕВ',
-            'KOBE! 🏀 ТАРАТОР',
-            'GET_REKT 😎 ШОПСКА САЛАТА',
-            'MOM_GET_THE_CAMERA 📸',
-            'OH_BABY_A_TRIPLE 🔥',
-            '420_BLAZE_IT 🌿',
-            'DORITOS_&_MTN_DEW 🌯🥤'
+            'xX_KUR_MI_Xx 🔫',
+            'MLG_QUICKSCOPE 👌',
+            'TRIPLE_COLLAT 💀',
+            'NO_SCOPE 🎯',
+            'GET_REKT 😎',
+            'MOM_CAMERA 📸',
+            'OH_BABY 🔥',
+            '420_BLAZE 🌿',
+            'DORITOS 🌯'
         ];
         function addKillFeed() {
             const feed = document.getElementById('killFeed');
@@ -433,25 +449,27 @@
             p.textContent = msg;
             feed.appendChild(p);
             setTimeout(()=> p.remove(), 3000);
-            if(feed.children.length > 5) feed.firstChild.remove();
+            if(feed.children.length > 3) feed.firstChild.remove();
         }
-        setInterval(addKillFeed, 2500);
+        setInterval(addKillFeed, 3000);
 
-        // ======== Патладжан при движение ========
-        let lastEgg = 0;
-        document.addEventListener('mousemove', e => {
-            const now=Date.now(); if(now-lastEgg<70) return; lastEgg=now;
-            const eggplant=document.createElement('div'); eggplant.textContent='🍆';
-            eggplant.style.position='fixed'; eggplant.style.left=(e.clientX-15)+'px';
-            eggplant.style.top=(e.clientY-25)+'px'; eggplant.style.fontSize='2rem';
-            eggplant.style.pointerEvents='none'; eggplant.style.zIndex='9999';
-            eggplant.style.transition='all 0.4s'; eggplant.style.opacity='0.8';
-            document.body.appendChild(eggplant);
-            setTimeout(()=>{ eggplant.style.opacity='0'; eggplant.style.transform='translateY(-30px) rotate(30deg)'; }, 80);
-            setTimeout(()=>eggplant.remove(), 500);
-        });
+        // ========== ПАТЛАДЖАН ПРИ ДВИЖЕНИЕ (само на десктоп) ==========
+        if (!isMobile) {
+            let lastEgg = 0;
+            document.addEventListener('mousemove', e => {
+                const now=Date.now(); if(now-lastEgg<80) return; lastEgg=now;
+                const eggplant=document.createElement('div'); eggplant.textContent='🍆';
+                eggplant.style.position='fixed'; eggplant.style.left=(e.clientX-12)+'px';
+                eggplant.style.top=(e.clientY-20)+'px'; eggplant.style.fontSize='1.6rem';
+                eggplant.style.pointerEvents='none'; eggplant.style.zIndex='9999';
+                eggplant.style.transition='all 0.4s'; eggplant.style.opacity='0.7';
+                document.body.appendChild(eggplant);
+                setTimeout(()=>{ eggplant.style.opacity='0'; eggplant.style.transform='translateY(-25px) rotate(25deg)'; }, 80);
+                setTimeout(()=>eggplant.remove(), 450);
+            });
+        }
 
-        // ======== Еърхорн и гласови ефекти ========
+        // ========== ЕЪРХОРН И ГЛАС ==========
         let audioCtx = null;
         function playAirhorn() {
             if(!audioCtx) audioCtx = new(window.AudioContext||window.webkitAudioContext)();
@@ -460,24 +478,20 @@
             const gain=audioCtx.createGain(), gain2=audioCtx.createGain();
             osc1.type='sawtooth'; osc1.frequency.setValueAtTime(150,now); osc1.frequency.linearRampToValueAtTime(400,now+0.2); osc1.frequency.linearRampToValueAtTime(100,now+0.6);
             osc2.type='square'; osc2.frequency.setValueAtTime(80,now); osc2.frequency.linearRampToValueAtTime(250,now+0.4);
-            gain.gain.setValueAtTime(0.3,now); gain.gain.linearRampToValueAtTime(0.5,now+0.1); gain.gain.linearRampToValueAtTime(0,now+0.7);
-            gain2.gain.setValueAtTime(0.2,now); gain2.gain.linearRampToValueAtTime(0,now+0.5);
+            gain.gain.setValueAtTime(0.25,now); gain.gain.linearRampToValueAtTime(0.4,now+0.1); gain.gain.linearRampToValueAtTime(0,now+0.7);
+            gain2.gain.setValueAtTime(0.15,now); gain2.gain.linearRampToValueAtTime(0,now+0.5);
             osc1.connect(gain); osc2.connect(gain2); gain.connect(audioCtx.destination); gain2.connect(audioCtx.destination);
             osc1.start(now); osc2.start(now); osc1.stop(now+0.7); osc2.stop(now+0.5);
         }
         function speak(text) {
             if('speechSynthesis' in window) {
                 const utter = new SpeechSynthesisUtterance(text);
-                utter.rate = 1.5; utter.pitch = 0.3; utter.volume = 1;
+                utter.rate = 1.4; utter.pitch = 0.3; utter.volume = 1;
                 speechSynthesis.speak(utter);
             }
         }
-        function playAirhornAndSpeak() {
-            playAirhorn();
-            speak('Oh baby a triple');
-        }
 
-        // ======== YouTube музика ========
+        // ========== YOUTUBE МУЗИКА ==========
         let musicStarted = false;
         function startMusic() {
             if(musicStarted) return; musicStarted=true;
@@ -492,7 +506,7 @@
             };
         }
 
-        // ======== МЕМЕТА (разширен пул, оправено без изрязване) ========
+        // ========== МЕМЕТА ==========
         const labelDiv = document.getElementById('label');
         const memeImg = document.getElementById('meme-img');
         const loadingDiv = document.getElementById('loading');
@@ -503,26 +517,18 @@
             'https://www.reddit.com/r/bulgaria/top.json?t=week&limit=100',
             'https://www.reddit.com/r/2bulgar4you/hot.json?limit=100',
             'https://www.reddit.com/r/bulgaria/search.json?q=меме&restrict_sr=1&limit=100&sort=hot',
-            'https://www.reddit.com/r/bulgaria/search.json?q=funny&restrict_sr=1&limit=100&sort=hot',
             'https://www.reddit.com/r/AskBalkans/hot.json?limit=100',
-            'https://www.reddit.com/r/memes/search.json?q=bulgaria&restrict_sr=1&limit=100&sort=hot',
-            'https://www.reddit.com/r/dankmemes/search.json?q=bulgaria&restrict_sr=1&limit=100&sort=hot',
-            'https://www.reddit.com/r/funny/search.json?q=bulgaria&restrict_sr=1&limit=100&sort=hot',
-            'https://www.reddit.com/r/photography/hot.json?limit=100',
-            'https://www.reddit.com/r/cameras/hot.json?limit=100',
-            'https://www.reddit.com/r/SonyAlpha/hot.json?limit=100',
-            'https://www.reddit.com/r/itookapicture/hot.json?limit=100',
-            'https://www.reddit.com/r/analog/hot.json?limit=100',
-            'https://www.reddit.com/r/photographs/hot.json?limit=100',
-            'https://www.reddit.com/r/me_irl/hot.json?limit=100',
-            'https://www.reddit.com/r/ProgrammerHumor/hot.json?limit=100',
-            'https://www.reddit.com/r/ComedyCemetery/hot.json?limit=100',
-            'https://www.reddit.com/r/terriblefacebookmemes/hot.json?limit=100',
-            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=bulgarian%20funny&limit=50&offset=${Math.floor(Math.random()*100)}&rating=g`,
-            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=меме&limit=50&offset=${Math.floor(Math.random()*100)}&rating=g`,
-            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=bulgaria%20meme&limit=50&offset=${Math.floor(Math.random()*100)}&rating=g`,
-            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=balkan%20meme&limit=50&offset=${Math.floor(Math.random()*100)}&rating=g`,
-            'https://meme-api.com/gimme/50'
+            'https://www.reddit.com/r/memes/search.json?q=bulgaria&restrict_sr=1&limit=50&sort=hot',
+            'https://www.reddit.com/r/dankmemes/search.json?q=bulgaria&restrict_sr=1&limit=50&sort=hot',
+            'https://www.reddit.com/r/funny/search.json?q=bulgaria&restrict_sr=1&limit=50&sort=hot',
+            'https://www.reddit.com/r/photography/hot.json?limit=50',
+            'https://www.reddit.com/r/cameras/hot.json?limit=50',
+            'https://www.reddit.com/r/SonyAlpha/hot.json?limit=50',
+            'https://www.reddit.com/r/me_irl/hot.json?limit=50',
+            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=bulgarian%20funny&limit=30&offset=${Math.floor(Math.random()*50)}&rating=g`,
+            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=меме&limit=30&offset=${Math.floor(Math.random()*50)}&rating=g`,
+            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=bulgaria%20meme&limit=30&offset=${Math.floor(Math.random()*50)}&rating=g`,
+            'https://meme-api.com/gimme/30'
         ];
 
         async function fetchAllMemePosts() {
@@ -562,38 +568,36 @@
                 if(!posts.length) throw new Error('НЯМА МЕМЕТА');
                 const rand = posts[Math.floor(Math.random()*posts.length)];
                 memeImg.src = rand.url;
-                memeImg.onerror = () => {
-                    // Ако снимката не зареди, пробваме друга
-                    fetchRandomMeme();
-                };
+                memeImg.onerror = () => fetchRandomMeme();
                 memeImg.style.display='block'; loadingDiv.style.display='none';
                 void memeImg.offsetWidth; memeImg.classList.add('mlg-entry');
-                const phrases = ['НА ТИ КЪСМЕТ!!! 💣','MLG 360 NO SCOPE 🌀','МАЙКООО 😱','ЕВАЛА БРАТ 🔥','ТОП КЪСМЕТ 💎','АЗ СЪМ МЕМЕ БОГ 🏆'];
+                const phrases = ['НА ТИ КЪСМЕТ!!! 💣','MLG 360 🌀','МАЙКООО 😱','ЕВАЛА БРАТ 🔥','ТОП КЪСМЕТ 💎','МЕМЕ БОГ 🏆'];
                 labelDiv.textContent = phrases[Math.floor(Math.random()*phrases.length)];
             } catch(e) {
                 loadingDiv.style.display='none'; labelDiv.textContent='⚠️ '+e.message;
             }
         }
 
-        // ======== ПАРИ КОНФЕТИ (вместо Краси) ========
+        // ========== ПАРИ КОНФЕТИ ==========
         function launchMoneyConfetti() {
             const moneyEmojis = ['💸', '💵', '💰', '💶', '💷', '🪙'];
             const btn = document.getElementById('fetch-btn');
             const rect = btn.getBoundingClientRect();
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
-            for (let i = 0; i < 50; i++) {
+            const count = isMobile ? 25 : 45;
+            for (let i = 0; i < count; i++) {
                 const el = document.createElement('div');
                 el.className = 'money-confetti';
                 el.textContent = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
                 el.style.left = cx + 'px';
                 el.style.top = cy + 'px';
                 const angle = Math.random() * Math.PI * 2;
-                const dist = 200 + Math.random() * 500;
+                const dist = 150 + Math.random() * 350;
                 const dx = Math.cos(angle) * dist;
-                const dy = Math.sin(angle) * dist - 200;
-                const rot = (Math.random() - 0.5) * 720;
-                const dur = 1.5 + Math.random() * 2;
+                const dy = Math.sin(angle) * dist - 150;
+                const rot = (Math.random() - 0.5) * 540;
+                const dur = 1.2 + Math.random() * 1.5;
                 el.style.setProperty('--dx', dx + 'px');
                 el.style.setProperty('--dy', dy + 'px');
                 el.style.setProperty('--rot', rot + 'deg');
@@ -603,7 +607,6 @@
             }
         }
 
-        // ======== Мега shake + 360 NO SCOPE overlay ========
         function triggerMegaShake() {
             document.body.classList.add('mega-shake');
             setTimeout(() => document.body.classList.remove('mega-shake'), 500);
@@ -614,12 +617,13 @@
         document.getElementById('fetch-btn').addEventListener('click', () => {
             fetchRandomMeme();
             launchMoneyConfetti();
-            playAirhornAndSpeak();
+            playAirhorn();
+            speak('Oh baby a triple');
             triggerMegaShake();
             startMusic();
         });
 
-        // ======== Popup ========
+        // ========== POPUP ==========
         const popupOverlay=document.getElementById('popup-overlay');
         const popupText=document.getElementById('popup-text');
         const popupBtn=document.getElementById('popup-btn');
@@ -633,9 +637,9 @@
         function schedulePopup(){
             setTimeout(()=>{
                 showPopup();
-                const autoHide=setTimeout(()=>{ if(popupOverlay.style.display==='flex') hidePopup(); },15000);
+                setTimeout(()=>{ if(popupOverlay.style.display==='flex') hidePopup(); },12000);
                 schedulePopup();
-            },10000+Math.random()*20000);
+            },12000+Math.random()*20000);
         }
         schedulePopup();
     </script>
