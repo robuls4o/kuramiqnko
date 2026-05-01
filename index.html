@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>КУРА МИ ЯНКО 360</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
 
@@ -35,18 +34,16 @@
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><text x="0" y="24" font-size="24">🍆</text></svg>') 16 16, auto;
         }
 
-        /* Плаващи камери – ОПРАВЕНИ */
         .floating-camera {
             position: fixed;
             font-size: 3rem;
-            opacity: 0.2;
+            opacity: 0.25;
             pointer-events: none;
             z-index: 0;
             animation: floatCamera linear infinite;
             filter: drop-shadow(0 0 8px rgba(0,255,255,0.5));
             user-select: none;
         }
-
         @keyframes floatCamera {
             0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
             25%  { transform: translate(80px, 120px) rotate(90deg) scale(1.1); }
@@ -68,7 +65,6 @@
             width: 100%;
             animation: pulseBorder 1.5s infinite alternate;
         }
-
         @keyframes pulseBorder {
             0% { border-color: var(--mlg-yellow); box-shadow: 0 0 30px var(--mlg-pink), 0 0 60px var(--mlg-cyan); }
             50% { border-color: var(--mlg-cyan); box-shadow: 0 0 50px var(--mlg-green), 0 0 90px var(--mlg-yellow); }
@@ -84,7 +80,6 @@
             text-shadow: 3px 3px 0px black, 0 0 15px var(--mlg-green), 0 0 40px var(--mlg-cyan);
             animation: glitch 1s infinite;
         }
-
         @keyframes glitch {
             0% { transform: translate(0); }
             20% { transform: translate(-3px, 3px); }
@@ -111,23 +106,19 @@
             animation: bounce 2s infinite, spinHint 0.8s infinite;
             z-index: 3;
         }
-
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
-
         @keyframes spinHint {
             0% { filter: hue-rotate(0deg); }
             100% { filter: hue-rotate(360deg); }
         }
-
         .btn-mlg:hover {
             transform: scale(1.1) rotate(-2deg);
             box-shadow: 0 0 60px var(--mlg-yellow), 0 0 90px var(--mlg-cyan);
             background: #fff;
         }
-
         .btn-mlg:active {
             transform: scale(0.95) rotate(2deg);
             box-shadow: 0 0 20px var(--mlg-pink);
@@ -142,7 +133,6 @@
             animation: shake 0.5s infinite;
             min-height: 3.5rem;
         }
-
         @keyframes shake {
             0%, 100% { transform: translate(1px, 0); }
             10% { transform: translate(-2px, -1px); }
@@ -164,7 +154,6 @@
             justify-content: center;
             position: relative;
         }
-
         #meme-img {
             max-width: 100%;
             max-height: 450px;
@@ -174,11 +163,9 @@
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: none;
         }
-
         .mlg-spin {
             animation: spin360 0.8s ease-out;
         }
-
         @keyframes spin360 {
             0% { transform: rotate(0deg) scale(0.3); opacity: 0; }
             50% { transform: rotate(180deg) scale(1.2); opacity: 1; }
@@ -192,13 +179,11 @@
             text-shadow: 0 0 10px var(--mlg-green);
             animation: pulseText 1s infinite;
         }
-
         @keyframes pulseText {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
 
-        /* MLG декорации */
         .deco {
             font-size: 2rem;
             position: fixed;
@@ -255,6 +240,7 @@
             transform: scale(1.1);
         }
 
+        /* Краси Радков конфети */
         .krasi-confetti {
             position: fixed;
             pointer-events: none;
@@ -266,7 +252,6 @@
             box-shadow: 0 0 10px gold;
             animation: krasiFall linear forwards;
         }
-
         @keyframes krasiFall {
             0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
             100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); }
@@ -296,25 +281,25 @@
     <div class="deco deco-3">💀</div>
     <div class="deco deco-4">🔥</div>
 
+    <div id="yt-player" style="display:none;"></div>
+
     <script>
-        // ========== ПЛАВАЩИ КАМЕРИ – ВИДИМИ И ДВИЖЕЩИ СЕ ==========
+        // ========== ПЛАВАЩИ КАМЕРИ ==========
         function createFloatingCameras() {
-            const emojis = ['📷', '📸', '📹', '🔭', '🎥', '📽️', 'Sony', 'α7', 'GM', 'FE', '7R', '24-70', '50mm'];
+            const emojis = ['📷', '📸', '📹', '🔭', '🎥', 'Sony', 'α7', 'GM', 'FE', '24-70', '50mm'];
             for (let i = 0; i < 18; i++) {
                 const el = document.createElement('div');
                 el.className = 'floating-camera';
                 el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                // Позиционираме ги из целия екран
                 el.style.left = Math.random() * 90 + '%';
                 el.style.top = Math.random() * 90 + '%';
                 el.style.fontSize = (2.5 + Math.random() * 4) + 'rem';
-                el.style.opacity = (0.15 + Math.random() * 0.3);
-                el.style.animationDuration = (18 + Math.random() * 25) + 's';
+                el.style.opacity = 0.2 + Math.random() * 0.3;
+                el.style.animationDuration = (20 + Math.random() * 25) + 's';
                 el.style.animationDelay = Math.random() * 8 + 's';
                 document.body.appendChild(el);
             }
         }
-        // Изчакваме малко, за да сме сигурни, че body е готов
         window.addEventListener('DOMContentLoaded', createFloatingCameras);
 
         // ========== ПАТЛАДЖАН ПОД КУРСОРА ==========
@@ -403,12 +388,14 @@
             };
         }
 
-        // ========== МЕМЕТА ==========
+        // ========== МЕМЕТА – ОГРОМЕН ПУЛ ==========
         const labelDiv = document.getElementById('label');
         const memeImg = document.getElementById('meme-img');
         const loadingDiv = document.getElementById('loading');
 
+        // Всички източници, които работят в браузъра без специални хедъри
         const sources = [
+            // === Reddit (безплатно, CORS) ===
             'https://www.reddit.com/r/bulgaria/hot.json?limit=100',
             'https://www.reddit.com/r/bulgaria/top.json?t=week&limit=100',
             'https://www.reddit.com/r/2bulgar4you/hot.json?limit=100',
@@ -428,51 +415,74 @@
             'https://www.reddit.com/r/ProgrammerHumor/hot.json?limit=100',
             'https://www.reddit.com/r/ComedyCemetery/hot.json?limit=100',
             'https://www.reddit.com/r/terriblefacebookmemes/hot.json?limit=100',
+
+            // === GIPHY (демо ключ, работи с CORS) ===
+            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=bulgarian%20funny&limit=50&offset=${Math.floor(Math.random()*100)}&rating=g`,
+            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=меме&limit=50&offset=${Math.floor(Math.random()*100)}&rating=g`,
+            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=bulgaria%20meme&limit=50&offset=${Math.floor(Math.random()*100)}&rating=g`,
+            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=balkan%20meme&limit=50&offset=${Math.floor(Math.random()*100)}&rating=g`,
+            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=баба%20марта&limit=50&offset=${Math.floor(Math.random()*100)}&rating=g`,
+            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=таратор&limit=50&offset=${Math.floor(Math.random()*100)}&rating=g`,
+
+            // === Meme API (връща 50 мемета от всички популярни subreddits) ===
+            'https://meme-api.com/gimme/50'
         ];
 
         async function fetchAllMemePosts() {
             const allPosts = [];
-            const fetchPromises = sources.map(url =>
-                fetch(url)
-                    .then(res => res.ok ? res.json() : null)
-                    .then(data => {
-                        if (data && data.data && data.data.children) {
-                            const imagePosts = data.data.children.filter(child => {
-                                const post = child.data;
-                                if (post.preview) return true;
-                                const directUrl = post.url_overridden_by_dest || post.url || '';
-                                return /\.(jpg|jpeg|png|gif|gifv|webp)(\?.*)?$/i.test(directUrl);
-                            });
-                            allPosts.push(...imagePosts);
-                        }
-                    })
-                    .catch(() => {})
-            );
+            // Обхождаме всички URL‑и едновременно
+            const fetchPromises = sources.map(async (url) => {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) return;
+                    const data = await response.json();
+
+                    // Reddit
+                    if (url.includes('reddit.com') && data.data && data.data.children) {
+                        data.data.children.forEach(child => {
+                            const post = child.data;
+                            // Извличаме директен линк към картинка/GIF
+                            let imageUrl = post.url_overridden_by_dest || post.url;
+                            // Ако е reddit галерия или друго – пропускаме
+                            if (imageUrl && /\.(jpg|jpeg|png|gif|gifv|webp)(\?.*)?$/i.test(imageUrl)) {
+                                allPosts.push({ id: post.id, url: imageUrl.replace(/\.gifv$/, '.gif') });
+                            } else if (post.preview && post.preview.images && post.preview.images[0]) {
+                                imageUrl = post.preview.images[0].source.url.replace(/&amp;/g, '&');
+                                allPosts.push({ id: post.id, url: imageUrl });
+                            }
+                        });
+                    }
+                    // GIPHY
+                    else if (url.includes('giphy') && data.data) {
+                        data.data.forEach(gif => {
+                            if (gif.images && gif.images.original) {
+                                allPosts.push({ id: gif.id, url: gif.images.original.url });
+                            }
+                        });
+                    }
+                    // Meme API
+                    else if (url.includes('meme-api.com') && data.memes) {
+                        data.memes.forEach(meme => {
+                            allPosts.push({ id: meme.postLink, url: meme.url });
+                        });
+                    }
+                } catch (e) {
+                    // Грешката се игнорира, за да продължи с другите източници
+                }
+            });
+
             await Promise.all(fetchPromises);
+
+            // Премахваме дубликати по url
             const unique = [];
-            const ids = new Set();
-            for (let p of allPosts) {
-                if (!ids.has(p.data.id)) {
-                    ids.add(p.data.id);
+            const seen = new Set();
+            for (const p of allPosts) {
+                if (!seen.has(p.url)) {
+                    seen.add(p.url);
                     unique.push(p);
                 }
             }
             return unique;
-        }
-
-        function extractImageUrl(postData) {
-            let imageUrl = '';
-            if (postData.preview && postData.preview.images && postData.preview.images[0]) {
-                imageUrl = postData.preview.images[0].source.url;
-                imageUrl = imageUrl.replace(/&amp;/g, '&');
-            }
-            if (!imageUrl) {
-                const direct = postData.url_overridden_by_dest || postData.url;
-                if (direct && /\.(jpg|jpeg|png|gif|gifv|webp)(\?.*)?$/i.test(direct)) {
-                    imageUrl = direct.replace(/\.gifv$/, '.gif');
-                }
-            }
-            return imageUrl;
         }
 
         async function fetchRandomMeme() {
@@ -480,17 +490,18 @@
             memeImg.style.display = 'none';
             loadingDiv.style.display = 'block';
             memeImg.classList.remove('mlg-spin');
+
             try {
                 const posts = await fetchAllMemePosts();
                 if (posts.length === 0) throw new Error('НЕ НАМЕРИХ МЕМЕТА 😢');
+
                 const randomPost = posts[Math.floor(Math.random() * posts.length)];
-                const imageUrl = extractImageUrl(randomPost.data);
-                if (!imageUrl) throw new Error('НЯМА СНИМКА В ТОЗИ ПОСТ');
-                memeImg.src = imageUrl;
+                memeImg.src = randomPost.url;
                 memeImg.style.display = 'block';
                 loadingDiv.style.display = 'none';
                 void memeImg.offsetWidth;
                 memeImg.classList.add('mlg-spin');
+
                 const phrases = [
                     'НА ТИ КЪСМЕТ!!! 💣',
                     'MLG 360 NO SCOPE 🌀',
@@ -581,6 +592,5 @@
         }
         schedulePopup();
     </script>
-    <div id="yt-player" style="display:none;"></div>
 </body>
 </html>
