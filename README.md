@@ -1,0 +1,2 @@
+# kuramiqnko
+sait ebavka
