@@ -31,6 +31,17 @@
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><text x="0" y="28" font-size="28">🍆</text></svg>') 16 16, auto;
         }
 
+        /* Canvas за интерактивни частици */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* зад всичко */
+            pointer-events: none;
+        }
+
         @keyframes screenShake {
             0% { transform: translate(0); }
             25% { transform: translate(-3px, 2px); }
@@ -57,7 +68,6 @@
             100% { transform: translate(0); }
         }
 
-        /* "360 NO SCOPE" overlay */
         #no-scope-overlay {
             position: fixed;
             top: 50%; left: 50%;
@@ -79,7 +89,6 @@
             100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
         }
 
-        /* Плаващи камери */
         .floating-camera {
             position: fixed; font-size: 3rem; opacity: 0.3; pointer-events: none; z-index: 0;
             animation: floatCamera linear infinite; filter: drop-shadow(0 0 10px #0ff);
@@ -195,13 +204,24 @@
             100% { transform: translate(2px, 0); }
         }
 
-        #meme-container { margin: 15px auto; min-height: 300px; display: flex; align-items: center; justify-content: center; }
-        #meme-img {
-            max-width: 100%; max-height: 450px; border-radius: 25px;
-            border: 5px solid #ff0; box-shadow: 0 0 40px #f0f, 0 0 80px #0ff;
-            display: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        #meme-container {
+            margin: 15px auto;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 25px;
         }
-        /* Вместо spin – bounce + glitch */
+        #meme-img {
+            max-width: 100%;
+            max-height: 80vh; /* адаптивна височина – няма да реже */
+            object-fit: contain; /* цялата снимка, без изрязване */
+            border-radius: 25px;
+            border: 5px solid #ff0;
+            box-shadow: 0 0 40px #f0f, 0 0 80px #0ff;
+            display: none;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
         .mlg-entry {
             animation: memeBounce 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -231,18 +251,22 @@
         }
         #popup-btn:hover{ transform: scale(1.1); }
 
-        .krasi-confetti {
-            position: fixed; pointer-events: none; z-index: 500; width: 50px; height: 50px;
-            border-radius: 50%; object-fit: cover; box-shadow: 0 0 15px gold;
-            animation: krasiFall linear forwards;
+        /* Пари конфети */
+        .money-confetti {
+            position: fixed; pointer-events: none; z-index: 500;
+            font-size: 2.5rem;
+            animation: moneyFall linear forwards;
+            filter: drop-shadow(0 0 8px gold);
         }
-        @keyframes krasiFall {
-            0% { opacity:1; transform: translate(0,0) rotate(0deg); }
-            100% { opacity:0; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); }
+        @keyframes moneyFall {
+            0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+            100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); }
         }
     </style>
 </head>
 <body>
+    <canvas id="particle-canvas"></canvas>
+
     <div id="no-scope-overlay">360 NO SCOPE</div>
     <div class="kill-feed" id="killFeed"></div>
 
@@ -266,7 +290,102 @@
     <div id="yt-player" style="display:none;"></div>
 
     <script>
-        // ======== Плаващи камери + MLG иконки ========
+        // ========== Интерактивен фон с частици (Canvas) ==========
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        const particles = [];
+        const mouse = { x: null, y: null, radius: 100 };
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Слушаме мишката
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() * 0.5) - 0.25;
+                this.speedY = (Math.random() * 0.5) - 0.25;
+                this.color = `hsl(${Math.random() * 60 + 180}, 100%, 70%)`; // циан-зелен спектър
+            }
+            update() {
+                // Леко привличане/отблъскване от мишката
+                if (mouse.x && mouse.y) {
+                    const dx = this.x - mouse.x;
+                    const dy = this.y - mouse.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.radius) {
+                        const force = (mouse.radius - dist) / mouse.radius;
+                        this.x += (dx / dist) * force * 0.5;
+                        this.y += (dy / dist) * force * 0.5;
+                    }
+                }
+                this.x += this.speedX;
+                this.y += this.speedY;
+                // Опаковане на краищата
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Инициализация на частици
+        for (let i = 0; i < 200; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            // Невидими линии между близки частици (сложен мрежов ефект)
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 50) {
+                        ctx.strokeStyle = `rgba(0, 255, 255, ${0.1 * (1 - dist / 50)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ========== Плаващи камери + MLG иконки ==========
         function createFloatingElements() {
             const cameras = ['📷','📸','📹','🔭','Sony','α7','GM','FE','24-70'];
             for (let i=0; i<12; i++) {
@@ -373,7 +492,7 @@
             };
         }
 
-        // ======== МЕМЕТА ========
+        // ======== МЕМЕТА (разширен пул, оправено без изрязване) ========
         const labelDiv = document.getElementById('label');
         const memeImg = document.getElementById('meme-img');
         const loadingDiv = document.getElementById('loading');
@@ -442,7 +561,12 @@
                 const posts = await fetchAllMemePosts();
                 if(!posts.length) throw new Error('НЯМА МЕМЕТА');
                 const rand = posts[Math.floor(Math.random()*posts.length)];
-                memeImg.src = rand.url; memeImg.style.display='block'; loadingDiv.style.display='none';
+                memeImg.src = rand.url;
+                memeImg.onerror = () => {
+                    // Ако снимката не зареди, пробваме друга
+                    fetchRandomMeme();
+                };
+                memeImg.style.display='block'; loadingDiv.style.display='none';
                 void memeImg.offsetWidth; memeImg.classList.add('mlg-entry');
                 const phrases = ['НА ТИ КЪСМЕТ!!! 💣','MLG 360 NO SCOPE 🌀','МАЙКООО 😱','ЕВАЛА БРАТ 🔥','ТОП КЪСМЕТ 💎','АЗ СЪМ МЕМЕ БОГ 🏆'];
                 labelDiv.textContent = phrases[Math.floor(Math.random()*phrases.length)];
@@ -451,27 +575,31 @@
             }
         }
 
-        // ======== Краси Радков конфети ========
-        function launchKrasiConfetti() {
-            const imgs = [
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Krasi_Radkov.jpg/80px-Krasi_Radkov.jpg',
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Krasi_Radkov.jpg/60px-Krasi_Radkov.jpg',
-                'https://imgrabo.com/img/celebrity/400/1_254_krasi-radkov.jpg',
-                'https://m.netinfo.bg/media/images/50239/krasi-radkov.jpg'
-            ];
+        // ======== ПАРИ КОНФЕТИ (вместо Краси) ========
+        function launchMoneyConfetti() {
+            const moneyEmojis = ['💸', '💵', '💰', '💶', '💷', '🪙'];
             const btn = document.getElementById('fetch-btn');
             const rect = btn.getBoundingClientRect();
-            const cx = rect.left+rect.width/2, cy = rect.top+rect.height/2;
-            for(let i=0; i<60; i++) {
-                const img=document.createElement('img'); img.src=imgs[Math.floor(Math.random()*imgs.length)];
-                img.className='krasi-confetti'; img.style.left=cx-25+'px'; img.style.top=cy-25+'px';
-                const angle=Math.random()*Math.PI*2, dist=200+Math.random()*400;
-                const dx=Math.cos(angle)*dist, dy=Math.sin(angle)*dist-300;
-                img.style.setProperty('--dx',dx+'px'); img.style.setProperty('--dy',dy+'px');
-                img.style.setProperty('--rot',(Math.random()-0.5)*720+'deg');
-                const dur=1.5+Math.random()*2; img.style.animation=`krasiFall ${dur}s ease-out forwards`;
-                document.body.appendChild(img);
-                setTimeout(()=>img.remove(), dur*1000+100);
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            for (let i = 0; i < 50; i++) {
+                const el = document.createElement('div');
+                el.className = 'money-confetti';
+                el.textContent = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
+                el.style.left = cx + 'px';
+                el.style.top = cy + 'px';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 200 + Math.random() * 500;
+                const dx = Math.cos(angle) * dist;
+                const dy = Math.sin(angle) * dist - 200;
+                const rot = (Math.random() - 0.5) * 720;
+                const dur = 1.5 + Math.random() * 2;
+                el.style.setProperty('--dx', dx + 'px');
+                el.style.setProperty('--dy', dy + 'px');
+                el.style.setProperty('--rot', rot + 'deg');
+                el.style.animation = `moneyFall ${dur}s ease-out forwards`;
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), dur * 1000 + 100);
             }
         }
 
@@ -485,7 +613,7 @@
 
         document.getElementById('fetch-btn').addEventListener('click', () => {
             fetchRandomMeme();
-            launchKrasiConfetti();
+            launchMoneyConfetti();
             playAirhornAndSpeak();
             triggerMegaShake();
             startMusic();
