@@ -4,26 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MLG 360 НА ТИ КЪСМЕТ БРАТ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Press+Start+2P&display=swap');
-
         :root {
-            --mlg-green: #0f0;
-            --mlg-pink: #f0f;
-            --mlg-yellow: #ff0;
-            --mlg-cyan: #0ff;
+            --g: #0f0;
+            --p: #f0f;
+            --y: #ff0;
+            --c: #0ff;
+            --r: #f00;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
+        html, body { width: 100%; height: 100%; overflow: hidden; }
 
         body {
-            font-family: 'Press Start 2P', 'Comic Sans MS', cursive;
+            font-family: 'Press Start 2P', cursive;
             background: #000;
             color: #fff;
             display: flex;
@@ -31,70 +28,67 @@
             justify-content: center;
             user-select: none;
             animation: screenShake 0.3s infinite;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><text x="0" y="28" font-size="28">🍆</text></svg>') 16 16, auto;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36"><text y="28" font-size="28">🍆</text></svg>') 16 16, auto;
         }
 
+        /* ======= CANVAS ======= */
         #particle-canvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none;
+            position: fixed; inset: 0; z-index: -1; pointer-events: none;
         }
 
+        /* ======= SHAKE ANIMATIONS ======= */
         @keyframes screenShake {
-            0% { transform: translate(0); }
-            25% { transform: translate(-2px, 1px); }
-            50% { transform: translate(2px, -1px); }
-            75% { transform: translate(-1px, 2px); }
-            100% { transform: translate(0); }
+            0%,100% { transform: translate(0); }
+            25%      { transform: translate(-2px, 1px); }
+            50%      { transform: translate(2px, -1px); }
+            75%      { transform: translate(-1px, 2px); }
         }
-
-        .mega-shake {
-            animation: megaShake 0.5s ease-out;
-        }
+        .mega-shake { animation: megaShake 0.5s ease-out !important; }
         @keyframes megaShake {
-            0% { transform: translate(0); }
-            10% { transform: translate(-12px, 6px); }
-            20% { transform: translate(12px, -8px); }
-            30% { transform: translate(-8px, 12px); }
-            40% { transform: translate(8px, -6px); }
-            50% { transform: translate(-6px, 8px); }
-            60% { transform: translate(6px, -12px); }
-            70% { transform: translate(-4px, 6px); }
-            80% { transform: translate(4px, -4px); }
-            90% { transform: translate(-2px, 2px); }
-            100% { transform: translate(0); }
+            0%,100% { transform: translate(0); }
+            10%  { transform: translate(-12px,  6px); }
+            20%  { transform: translate( 12px, -8px); }
+            30%  { transform: translate( -8px, 12px); }
+            40%  { transform: translate(  8px, -6px); }
+            50%  { transform: translate( -6px,  8px); }
+            60%  { transform: translate(  6px,-12px); }
+            70%  { transform: translate( -4px,  6px); }
+            80%  { transform: translate(  4px, -4px); }
+            90%  { transform: translate( -2px,  2px); }
         }
 
+        /* ======= NO SCOPE OVERLAY ======= */
         #no-scope-overlay {
             position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0);
+            transform: translate(-50%,-50%) scale(0);
             font-family: 'Permanent Marker', cursive;
             font-size: clamp(2.5rem, 8vw, 4rem);
-            color: #f0f;
-            text-shadow: 0 0 20px #ff0, 0 0 40px #0ff;
+            color: var(--p);
+            text-shadow: 0 0 20px var(--y), 0 0 40px var(--c);
             z-index: 998; pointer-events: none;
-            transition: transform 0.3s;
             white-space: nowrap;
         }
         #no-scope-overlay.show {
-            transform: translate(-50%, -50%) scale(1.2);
             animation: noScopeFade 0.8s ease-out forwards;
         }
         @keyframes noScopeFade {
-            0% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+            0%   { opacity: 1; transform: translate(-50%,-50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%,-50%) scale(0.3); }
         }
 
+        /* ======= FLOATING ELEMENTS ======= */
         .floating-camera {
-            position: fixed; font-size: 2rem; opacity: 0.2; pointer-events: none; z-index: 0;
-            animation: floatCamera linear infinite; filter: drop-shadow(0 0 6px #0ff);
+            position: fixed; opacity: 0.2; pointer-events: none; z-index: 0;
+            animation: floatCamera linear infinite;
+            filter: drop-shadow(0 0 6px var(--c));
         }
         @keyframes floatCamera {
-            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-            20% { transform: translate(50px, 80px) rotate(90deg) scale(1.1); }
-            40% { transform: translate(-30px, 140px) rotate(180deg) scale(0.85); }
-            60% { transform: translate(60px, 30px) rotate(270deg) scale(1.05); }
-            80% { transform: translate(-15px, 110px) rotate(360deg) scale(0.9); }
-            100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            0%   { transform: translate(0,0)    rotate(0deg)   scale(1);    }
+            20%  { transform: translate(50px,80px)  rotate(90deg)  scale(1.1);  }
+            40%  { transform: translate(-30px,140px) rotate(180deg) scale(0.85); }
+            60%  { transform: translate(60px,30px)  rotate(270deg) scale(1.05); }
+            80%  { transform: translate(-15px,110px) rotate(360deg) scale(0.9);  }
+            100% { transform: translate(0,0)    rotate(0deg)   scale(1);    }
         }
 
         .mlg-float {
@@ -102,188 +96,223 @@
             animation: mlgFloat linear infinite;
         }
         @keyframes mlgFloat {
-            0% { transform: translateY(0) rotate(0); opacity: 0.25; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+            0%   { transform: translateY(0)     rotate(0);   opacity: 0.25; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0;    }
         }
 
+        /* ======= KILL FEED ======= */
         .kill-feed {
             position: fixed; top: 10px; right: 10px; z-index: 999;
-            background: rgba(0,0,0,0.8); border: 2px solid #0f0; padding: 6px 10px;
-            font-family: 'Courier New', monospace; font-size: 0.8rem; color: #0f0;
-            border-radius: 6px; box-shadow: 0 0 12px #0f0; max-width: 200px;
+            background: rgba(0,0,0,0.8); border: 2px solid var(--g);
+            padding: 6px 10px; font-family: 'Courier New', monospace;
+            font-size: 0.8rem; color: var(--g); border-radius: 6px;
+            box-shadow: 0 0 12px var(--g); max-width: 200px;
         }
-        .kill-feed p { margin: 2px 0; animation: fadeInOut 3s ease-in-out; }
+        .kill-feed p { margin: 2px 0; animation: fadeInOut 3s ease-in-out forwards; }
         @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateX(20px); }
-            20% { opacity: 1; transform: translateX(0); }
-            80% { opacity: 1; }
+            0%   { opacity: 0; transform: translateX(20px); }
+            20%  { opacity: 1; transform: translateX(0); }
+            80%  { opacity: 1; }
             100% { opacity: 0; transform: translateX(-10px); }
         }
 
+        /* ======= COMBO METER ======= */
+        #combo-display {
+            position: fixed; top: 10px; left: 10px; z-index: 999;
+            font-size: clamp(0.6rem, 1.8vw, 0.9rem);
+            color: var(--y); text-shadow: 0 0 8px var(--y);
+            background: rgba(0,0,0,0.7); border: 2px solid var(--y);
+            border-radius: 8px; padding: 6px 10px;
+            transition: all 0.2s;
+        }
+        #combo-display.combo-burst {
+            animation: comboBurst 0.4s ease-out;
+        }
+        @keyframes comboBurst {
+            0%   { transform: scale(1.6); color: #fff; }
+            100% { transform: scale(1);   color: var(--y); }
+        }
+        #streak-bar-wrap {
+            height: 4px; background: #333; border-radius: 2px; margin-top: 4px; overflow: hidden;
+        }
+        #streak-bar {
+            height: 100%; background: linear-gradient(90deg, var(--g), var(--y), var(--p));
+            width: 0%; transition: width 0.3s;
+        }
+
+        /* ======= CONTAINER ======= */
         .container {
             position: relative; z-index: 10;
             background: rgba(10,10,10,0.9);
-            border: 3px solid #ff0; border-radius: 25px; padding: 12px 15px;
-            box-shadow: 0 0 25px #f0f, 0 0 50px #0ff, inset 0 0 15px #0f0;
+            border: 3px solid var(--y); border-radius: 25px;
+            padding: 12px 15px;
+            box-shadow: 0 0 25px var(--p), 0 0 50px var(--c), inset 0 0 15px var(--g);
             text-align: center;
-            width: min(95vw, 600px);
-            max-height: 96vh;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+            width: min(95vw, 600px); max-height: 96vh;
+            display: flex; flex-direction: column; gap: 6px;
             animation: pulseBorder 1.5s infinite alternate;
         }
         @keyframes pulseBorder {
-            0% { border-color: #ff0; box-shadow: 0 0 20px #f0f, 0 0 40px #0ff; }
-            50% { border-color: #0ff; box-shadow: 0 0 35px #0f0, 0 0 60px #ff0; }
-            100% { border-color: #f0f; box-shadow: 0 0 20px #ff0, 0 0 40px #f0f; }
+            0%   { border-color: var(--y); box-shadow: 0 0 20px var(--p), 0 0 40px var(--c); }
+            50%  { border-color: var(--c); box-shadow: 0 0 35px var(--g), 0 0 60px var(--y); }
+            100% { border-color: var(--p); box-shadow: 0 0 20px var(--y), 0 0 40px var(--p); }
         }
         .container::before {
-            content: ''; position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px;
-            border: 2px dashed #ff0; border-radius: 30px; animation: dashRotate 4s linear infinite;
-            pointer-events: none;
+            content: ''; position: absolute; inset: -6px;
+            border: 2px dashed var(--y); border-radius: 30px;
+            animation: dashRotate 4s linear infinite; pointer-events: none;
         }
-        @keyframes dashRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes dashRotate { to { transform: rotate(360deg); } }
 
+        /* ======= HEADING ======= */
         h1 {
             font-size: clamp(1.3rem, 3.5vw, 2.2rem);
             font-family: 'Permanent Marker', cursive;
-            color: #0f0;
-            text-shadow: 2px 2px 0 #000, 0 0 12px #0f0, 0 0 25px #0ff;
+            color: var(--g);
+            text-shadow: 2px 2px 0 #000, 0 0 12px var(--g), 0 0 25px var(--c);
             animation: glitch 0.8s infinite, rainbow 2s linear infinite;
             flex-shrink: 0;
-            margin: 0;
         }
         @keyframes glitch {
-            0%, 100% { transform: translate(0); }
-            15% { transform: translate(-3px, 2px); }
-            30% { transform: translate(3px, -2px); }
-            45% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            75% { transform: translate(-1px, 1px); }
+            0%,100% { transform: translate(0); }
+            15%  { transform: translate(-3px, 2px); }
+            30%  { transform: translate( 3px,-2px); }
+            45%  { transform: translate(-2px,-2px); }
+            60%  { transform: translate( 2px, 2px); }
+            75%  { transform: translate(-1px, 1px); }
         }
         @keyframes rainbow {
-            0% { color: #f00; } 20% { color: #ff0; } 40% { color: #0f0; }
-            60% { color: #0ff; } 80% { color: #f0f; } 100% { color: #f00; }
+            0%   { color: var(--r); }
+            20%  { color: var(--y); }
+            40%  { color: var(--g); }
+            60%  { color: var(--c); }
+            80%  { color: var(--p); }
+            100% { color: var(--r); }
         }
 
+        /* ======= BUTTON ======= */
         .btn-mlg {
-            background: linear-gradient(45deg, #ff0, #f0f); color: #000;
-            border: 2px solid #fff; font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(45deg, var(--y), var(--p));
+            color: #000; border: 2px solid #fff;
+            font-family: 'Press Start 2P', cursive;
             font-size: clamp(0.9rem, 2.5vw, 1.4rem);
             font-weight: bold; padding: 10px 18px;
             border-radius: 40px; cursor: pointer; letter-spacing: 3px;
             text-shadow: 2px 2px 0 #fff;
-            box-shadow: 0 0 20px #ff0, 0 0 40px #f0f;
-            transition: all 0.1s;
+            box-shadow: 0 0 20px var(--y), 0 0 40px var(--p);
+            transition: transform 0.1s, box-shadow 0.1s;
             animation: bounce 1.5s infinite, rainbowBg 3s infinite;
             flex-shrink: 0;
         }
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+            0%,100% { transform: translateY(0); }
+            50%     { transform: translateY(-6px); }
         }
         @keyframes rainbowBg {
-            0% { background: linear-gradient(45deg, #f00, #ff0); }
-            25% { background: linear-gradient(45deg, #0f0, #0ff); }
-            50% { background: linear-gradient(45deg, #00f, #f0f); }
-            75% { background: linear-gradient(45deg, #ff0, #f00); }
-            100% { background: linear-gradient(45deg, #f00, #ff0); }
+            0%   { background: linear-gradient(45deg, var(--r), var(--y)); }
+            25%  { background: linear-gradient(45deg, var(--g), var(--c)); }
+            50%  { background: linear-gradient(45deg, #00f,    var(--p)); }
+            75%  { background: linear-gradient(45deg, var(--y), var(--r)); }
+            100% { background: linear-gradient(45deg, var(--r), var(--y)); }
         }
-        .btn-mlg:hover { transform: scale(1.08) rotate(-3deg); box-shadow: 0 0 40px #fff; }
+        .btn-mlg:hover  { transform: scale(1.08) rotate(-3deg); box-shadow: 0 0 40px #fff; }
         .btn-mlg:active { transform: scale(0.92) rotate(3deg); }
 
+        /* ======= LABEL ======= */
         #label {
             font-size: clamp(1.1rem, 3vw, 1.8rem);
-            font-weight: 900; color: #0ff;
-            text-shadow: 0 0 12px #0ff, 0 0 25px #0f0;
+            font-weight: 900; color: var(--c);
+            text-shadow: 0 0 12px var(--c), 0 0 25px var(--g);
             animation: shake 0.4s infinite;
-            min-height: 2rem;
-            flex-shrink: 0;
-            margin: 0;
+            min-height: 2rem; flex-shrink: 0;
         }
         @keyframes shake {
-            0% { transform: translate(1px, 0); }
-            15% { transform: translate(-2px, -1px); }
-            30% { transform: translate(2px, 1px); }
-            45% { transform: translate(-1px, -1px); }
-            60% { transform: translate(1px, 2px); }
-            75% { transform: translate(-1px, -2px); }
-            100% { transform: translate(1px, 0); }
+            0%   { transform: translate( 1px, 0); }
+            15%  { transform: translate(-2px,-1px); }
+            30%  { transform: translate( 2px, 1px); }
+            45%  { transform: translate(-1px,-1px); }
+            60%  { transform: translate( 1px, 2px); }
+            75%  { transform: translate(-1px,-2px); }
+            100% { transform: translate( 1px, 0); }
         }
 
+        /* ======= MEME CONTAINER ======= */
         #meme-container {
-            flex: 1 1 auto;
-            min-height: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 18px;
-            overflow: hidden;
+            flex: 1 1 auto; min-height: 0;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 18px; overflow: hidden;
         }
         #meme-img {
-            max-width: 100%;
-            max-height: min(50vh, 400px);
-            object-fit: contain;
-            border-radius: 18px;
-            border: 3px solid #ff0;
-            box-shadow: 0 0 20px #f0f, 0 0 40px #0ff;
+            max-width: 100%; max-height: min(50vh, 400px);
+            object-fit: contain; border-radius: 18px;
+            border: 3px solid var(--y);
+            box-shadow: 0 0 20px var(--p), 0 0 40px var(--c);
             display: none;
-            transition: 0.4s;
         }
-        .mlg-entry {
-            animation: memeBounce 0.7s ease-out;
-        }
+        .mlg-entry { animation: memeBounce 0.7s ease-out; }
         @keyframes memeBounce {
-            0% { transform: scale(0.2); opacity: 0; }
-            50% { transform: scale(1.08); opacity: 1; }
+            0%   { transform: scale(0.2); opacity: 0; }
+            50%  { transform: scale(1.08); opacity: 1; }
             100% { transform: scale(1); }
         }
 
+        /* ======= LOADING ======= */
         .loading {
-            color: #0f0; font-size: clamp(0.8rem, 2vw, 1.1rem);
-            text-shadow: 0 0 8px #0f0; animation: pulseText 0.8s infinite;
+            color: var(--g); font-size: clamp(0.8rem, 2vw, 1.1rem);
+            text-shadow: 0 0 8px var(--g); animation: pulseText 0.8s infinite;
         }
         @keyframes pulseText { 0%,100%{ opacity:1; } 50%{ opacity:0.3; } }
 
+        /* ======= POPUP ======= */
         #popup-overlay {
-            display: none; position: fixed; top:0;left:0;width:100%;height:100%;
-            background: rgba(0,0,0,0.8); z-index:1000; justify-content: center; align-items: center;
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.8); z-index: 1000;
+            justify-content: center; align-items: center;
         }
         #popup-box {
-            background: #111; border:3px solid #f0f; border-radius: 20px; padding: 20px;
-            text-align: center; box-shadow: 0 0 30px #f0f; animation: popIn 0.4s;
+            background: #111; border: 3px solid var(--p);
+            border-radius: 20px; padding: 20px; text-align: center;
+            box-shadow: 0 0 30px var(--p);
+            animation: popIn 0.4s;
             width: min(90vw, 350px);
         }
-        @keyframes popIn { 0%{ transform: scale(0); } 100%{ transform: scale(1); } }
+        @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
         #popup-text {
             font-size: clamp(1.3rem, 4vw, 1.8rem);
-            color:#0ff; text-shadow: 0 0 12px #0ff; margin-bottom: 12px;
+            color: var(--c); text-shadow: 0 0 12px var(--c); margin-bottom: 12px;
         }
         #popup-btn {
-            background: #ff0; color:#000; font-size:1.2rem; font-weight:bold;
-            padding: 10px 25px; border:none; border-radius: 30px; cursor:pointer;
-            box-shadow: 0 0 15px #ff0; transition: 0.2s;
+            background: var(--y); color: #000; font-size: 1.2rem;
+            font-weight: bold; padding: 10px 25px;
+            border: none; border-radius: 30px; cursor: pointer;
+            box-shadow: 0 0 15px var(--y); transition: transform 0.2s;
         }
-        #popup-btn:hover{ transform: scale(1.1); }
+        #popup-btn:hover { transform: scale(1.1); }
 
+        /* ======= MONEY CONFETTI ======= */
         .money-confetti {
             position: fixed; pointer-events: none; z-index: 500;
             font-size: 1.8rem;
-            animation: moneyFall linear forwards;
             filter: drop-shadow(0 0 5px gold);
+            animation: moneyFall linear forwards;
         }
         @keyframes moneyFall {
-            0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
-            100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); }
+            0%   { opacity: 1; transform: translate(0,0) rotate(0deg); }
+            100% { opacity: 0; transform: translate(var(--dx),var(--dy)) rotate(var(--rot)); }
         }
     </style>
 </head>
 <body>
     <canvas id="particle-canvas"></canvas>
-
     <div id="no-scope-overlay">360 NO SCOPE</div>
     <div class="kill-feed" id="killFeed"></div>
+
+    <!-- COMBO METER -->
+    <div id="combo-display">
+        <div>COMBO: <span id="combo-count">0</span>x</div>
+        <div>STREAK: <span id="streak-label">NOOB</span></div>
+        <div id="streak-bar-wrap"><div id="streak-bar"></div></div>
+    </div>
 
     <div class="container">
         <h1>КУРА МИ ЯНКО</h1>
@@ -305,343 +334,479 @@
     <div id="yt-player" style="display:none;"></div>
 
     <script>
-        // ========== ЛЕКИ ЧАСТИЦИ (оптимизирани) ==========
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        const isMobile = window.innerWidth < 768;
-        const particleCount = isMobile ? 60 : 120;
-        const particles = [];
-        const mouse = { x: null, y: null, radius: isMobile ? 50 : 80 };
+    // ======= UTILS =======
+    const $ = id => document.getElementById(id);
+    const isMobile = window.innerWidth < 768;
+    const rand = n => Math.floor(Math.random() * n);
+    const randF = (min, max) => min + Math.random() * (max - min);
 
-        function resizeCanvas() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+    // ======= CANVAS PARTICLES =======
+    const canvas = $('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+    const mouse = { x: null, y: null, radius: isMobile ? 50 : 80 };
+    const PARTICLE_COUNT = isMobile ? 60 : 120;
+
+    function resizeCanvas() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('mouseout',  () => { mouse.x = mouse.y = null; });
+
+    class Particle {
+        constructor() { this.reset(); }
+        reset() {
+            this.x  = Math.random() * W;
+            this.y  = Math.random() * H;
+            this.size   = randF(0.5, 2.5);
+            this.speedX = randF(-0.15, 0.15);
+            this.speedY = randF(-0.15, 0.15);
+            this.color  = `hsl(${rand(60) + 180},100%,70%)`;
         }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-        window.addEventListener('mouseout', () => {
-            mouse.x = null;
-            mouse.y = null;
-        });
-
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() * 0.3) - 0.15;
-                this.speedY = (Math.random() * 0.3) - 0.15;
-                this.color = `hsl(${Math.random() * 60 + 180}, 100%, 70%)`;
-            }
-            update() {
-                if (mouse.x && mouse.y) {
-                    const dx = this.x - mouse.x;
-                    const dy = this.y - mouse.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < mouse.radius) {
-                        const force = (mouse.radius - dist) / mouse.radius;
-                        this.x += (dx / dist) * force * 0.2;
-                        this.y += (dy / dist) * force * 0.2;
-                    }
-                }
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x < 0) this.x = width;
-                if (this.x > width) this.x = 0;
-                if (this.y < 0) this.y = height;
-                if (this.y > height) this.y = 0;
-            }
-            draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, width, height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            // Рисуваме линии само ако не е мобилно (пестим ресурси)
-            if (!isMobile) {
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < 40) {
-                            ctx.strokeStyle = `rgba(0, 255, 255, ${0.08 * (1 - dist / 40)})`;
-                            ctx.lineWidth = 0.5;
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.stroke();
-                        }
-                    }
+        update() {
+            if (mouse.x != null) {
+                const dx = this.x - mouse.x, dy = this.y - mouse.y;
+                const dist = Math.hypot(dx, dy);
+                if (dist < mouse.radius) {
+                    const f = (mouse.radius - dist) / mouse.radius * 0.2;
+                    this.x += dx / dist * f;
+                    this.y += dy / dist * f;
                 }
             }
-            requestAnimationFrame(animateParticles);
+            this.x = (this.x + this.speedX + W) % W;
+            this.y = (this.y + this.speedY + H) % H;
         }
-        animateParticles();
-
-        // ========== ПЛАВАЩИ ЕЛЕМЕНТИ (намалени за мобилно) ==========
-        function createFloatingElements() {
-            const cameras = ['📷','📸','📹','Sony','α7','GM'];
-            const camCount = isMobile ? 6 : 12;
-            for (let i=0; i<camCount; i++) {
-                const el = document.createElement('div');
-                el.className = 'floating-camera';
-                el.textContent = cameras[Math.floor(Math.random()*cameras.length)];
-                el.style.left = Math.random()*90+'%';
-                el.style.top = Math.random()*90+'%';
-                el.style.fontSize = (1.8+Math.random()*2.5)+'rem';
-                el.style.animationDuration = (15+Math.random()*20)+'s';
-                el.style.animationDelay = Math.random()*6+'s';
-                document.body.appendChild(el);
-            }
-            const icons = ['🌀','💣','🔫','🎯','💀','🔥','👌','😎'];
-            const iconCount = isMobile ? 8 : 15;
-            for (let i=0; i<iconCount; i++) {
-                const icon = document.createElement('div');
-                icon.className = 'mlg-float';
-                icon.textContent = icons[Math.floor(Math.random()*icons.length)];
-                icon.style.left = Math.random()*100+'%';
-                icon.style.top = Math.random()*100+'%';
-                icon.style.animationDuration = (4+Math.random()*8)+'s';
-                icon.style.animationDelay = Math.random()*4+'s';
-                document.body.appendChild(icon);
-            }
+        draw() {
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
         }
-        window.addEventListener('DOMContentLoaded', createFloatingElements);
+    }
 
-        // ========== KILL FEED ==========
-        const killFeedMsgs = [
-            'xX_KUR_MI_Xx 🔫',
-            'MLG_QUICKSCOPE 👌',
-            'TRIPLE_COLLAT 💀',
-            'NO_SCOPE 🎯',
-            'GET_REKT 😎',
-            'MOM_CAMERA 📸',
-            'OH_BABY 🔥',
-            '420_BLAZE 🌿',
-            'DORITOS 🌯'
-        ];
-        function addKillFeed() {
-            const feed = document.getElementById('killFeed');
-            const msg = killFeedMsgs[Math.floor(Math.random()*killFeedMsgs.length)];
-            const p = document.createElement('p');
-            p.textContent = msg;
-            feed.appendChild(p);
-            setTimeout(()=> p.remove(), 3000);
-            if(feed.children.length > 3) feed.firstChild.remove();
-        }
-        setInterval(addKillFeed, 3000);
+    const particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
 
-        // ========== ПАТЛАДЖАН ПРИ ДВИЖЕНИЕ (само на десктоп) ==========
+    function animateParticles() {
+        ctx.clearRect(0, 0, W, H);
+        for (const p of particles) { p.update(); p.draw(); }
         if (!isMobile) {
-            let lastEgg = 0;
-            document.addEventListener('mousemove', e => {
-                const now=Date.now(); if(now-lastEgg<80) return; lastEgg=now;
-                const eggplant=document.createElement('div'); eggplant.textContent='🍆';
-                eggplant.style.position='fixed'; eggplant.style.left=(e.clientX-12)+'px';
-                eggplant.style.top=(e.clientY-20)+'px'; eggplant.style.fontSize='1.6rem';
-                eggplant.style.pointerEvents='none'; eggplant.style.zIndex='9999';
-                eggplant.style.transition='all 0.4s'; eggplant.style.opacity='0.7';
-                document.body.appendChild(eggplant);
-                setTimeout(()=>{ eggplant.style.opacity='0'; eggplant.style.transform='translateY(-25px) rotate(25deg)'; }, 80);
-                setTimeout(()=>eggplant.remove(), 450);
-            });
-        }
-
-        // ========== ЕЪРХОРН И ГЛАС ==========
-        let audioCtx = null;
-        function playAirhorn() {
-            if(!audioCtx) audioCtx = new(window.AudioContext||window.webkitAudioContext)();
-            const now = audioCtx.currentTime;
-            const osc1=audioCtx.createOscillator(), osc2=audioCtx.createOscillator();
-            const gain=audioCtx.createGain(), gain2=audioCtx.createGain();
-            osc1.type='sawtooth'; osc1.frequency.setValueAtTime(150,now); osc1.frequency.linearRampToValueAtTime(400,now+0.2); osc1.frequency.linearRampToValueAtTime(100,now+0.6);
-            osc2.type='square'; osc2.frequency.setValueAtTime(80,now); osc2.frequency.linearRampToValueAtTime(250,now+0.4);
-            gain.gain.setValueAtTime(0.25,now); gain.gain.linearRampToValueAtTime(0.4,now+0.1); gain.gain.linearRampToValueAtTime(0,now+0.7);
-            gain2.gain.setValueAtTime(0.15,now); gain2.gain.linearRampToValueAtTime(0,now+0.5);
-            osc1.connect(gain); osc2.connect(gain2); gain.connect(audioCtx.destination); gain2.connect(audioCtx.destination);
-            osc1.start(now); osc2.start(now); osc1.stop(now+0.7); osc2.stop(now+0.5);
-        }
-        function speak(text) {
-            if('speechSynthesis' in window) {
-                const utter = new SpeechSynthesisUtterance(text);
-                utter.rate = 1.4; utter.pitch = 0.3; utter.volume = 1;
-                speechSynthesis.speak(utter);
-            }
-        }
-
-        // ========== YOUTUBE МУЗИКА ==========
-        let musicStarted = false;
-        function startMusic() {
-            if(musicStarted) return; musicStarted=true;
-            const tag = document.createElement('script'); tag.src='https://www.youtube.com/iframe_api';
-            document.head.appendChild(tag);
-            window.onYouTubeIframeAPIReady = function() {
-                new YT.Player('yt-player', {
-                    height:'0', width:'0', videoId:'PVITY6IyGEI',
-                    playerVars:{ autoplay:1, mute:1, controls:0, loop:1, playlist:'PVITY6IyGEI' },
-                    events:{ onReady: e => { e.target.unMute(); e.target.playVideo(); } }
-                });
-            };
-        }
-
-        // ========== МЕМЕТА ==========
-        const labelDiv = document.getElementById('label');
-        const memeImg = document.getElementById('meme-img');
-        const loadingDiv = document.getElementById('loading');
-        const noScopeOverlay = document.getElementById('no-scope-overlay');
-
-        const sources = [
-            'https://www.reddit.com/r/bulgaria/hot.json?limit=100',
-            'https://www.reddit.com/r/bulgaria/top.json?t=week&limit=100',
-            'https://www.reddit.com/r/2bulgar4you/hot.json?limit=100',
-            'https://www.reddit.com/r/bulgaria/search.json?q=меме&restrict_sr=1&limit=100&sort=hot',
-            'https://www.reddit.com/r/AskBalkans/hot.json?limit=100',
-            'https://www.reddit.com/r/memes/search.json?q=bulgaria&restrict_sr=1&limit=50&sort=hot',
-            'https://www.reddit.com/r/dankmemes/search.json?q=bulgaria&restrict_sr=1&limit=50&sort=hot',
-            'https://www.reddit.com/r/funny/search.json?q=bulgaria&restrict_sr=1&limit=50&sort=hot',
-            'https://www.reddit.com/r/photography/hot.json?limit=50',
-            'https://www.reddit.com/r/cameras/hot.json?limit=50',
-            'https://www.reddit.com/r/SonyAlpha/hot.json?limit=50',
-            'https://www.reddit.com/r/me_irl/hot.json?limit=50',
-            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=bulgarian%20funny&limit=30&offset=${Math.floor(Math.random()*50)}&rating=g`,
-            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=меме&limit=30&offset=${Math.floor(Math.random()*50)}&rating=g`,
-            `https://api.giphy.com/v1/gifs/search?api_key=p0mJGaVz7IUqAHToBBbEwPNIrC7hOmsx&q=bulgaria%20meme&limit=30&offset=${Math.floor(Math.random()*50)}&rating=g`,
-            'https://meme-api.com/gimme/30'
-        ];
-
-        async function fetchAllMemePosts() {
-            const allPosts = [];
-            const fetchPromises = sources.map(async url => {
-                try {
-                    const resp = await fetch(url);
-                    if(!resp.ok) return;
-                    const data = await resp.json();
-                    if(url.includes('reddit.com') && data.data?.children) {
-                        data.data.children.forEach(c => {
-                            const post = c.data;
-                            let imgUrl = post.url_overridden_by_dest || post.url;
-                            if (imgUrl && /\.(jpg|jpeg|png|gif|gifv|webp)(\?.*)?$/i.test(imgUrl)) {
-                                allPosts.push({ id: post.id, url: imgUrl.replace(/\.gifv$/, '.gif') });
-                            } else if (post.preview?.images?.[0]) {
-                                allPosts.push({ id: post.id, url: post.preview.images[0].source.url.replace(/&amp;/g, '&') });
-                            }
-                        });
-                    } else if(url.includes('giphy') && data.data) {
-                        data.data.forEach(gif => allPosts.push({ id: gif.id, url: gif.images.original.url }));
-                    } else if(url.includes('meme-api.com') && data.memes) {
-                        data.memes.forEach(m => allPosts.push({ id: m.postLink, url: m.url }));
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.hypot(dx, dy);
+                    if (dist < 40) {
+                        ctx.strokeStyle = `rgba(0,255,255,${0.08 * (1 - dist / 40)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
                     }
-                } catch(e) {}
-            });
-            await Promise.all(fetchPromises);
-            const unique=[], seen=new Set();
-            for(const p of allPosts) { if(!seen.has(p.url)){ seen.add(p.url); unique.push(p); } }
-            return unique;
-        }
-
-        async function fetchRandomMeme() {
-            labelDiv.textContent=''; memeImg.style.display='none'; loadingDiv.style.display='block'; memeImg.classList.remove('mlg-entry');
-            try {
-                const posts = await fetchAllMemePosts();
-                if(!posts.length) throw new Error('НЯМА МЕМЕТА');
-                const rand = posts[Math.floor(Math.random()*posts.length)];
-                memeImg.src = rand.url;
-                memeImg.onerror = () => fetchRandomMeme();
-                memeImg.style.display='block'; loadingDiv.style.display='none';
-                void memeImg.offsetWidth; memeImg.classList.add('mlg-entry');
-                const phrases = ['НА ТИ КЪСМЕТ!!! 💣','MLG 360 🌀','МАЙКООО 😱','ЕВАЛА БРАТ 🔥','ТОП КЪСМЕТ 💎','МЕМЕ БОГ 🏆'];
-                labelDiv.textContent = phrases[Math.floor(Math.random()*phrases.length)];
-            } catch(e) {
-                loadingDiv.style.display='none'; labelDiv.textContent='⚠️ '+e.message;
+                }
             }
         }
+        requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
 
-        // ========== ПАРИ КОНФЕТИ ==========
-        function launchMoneyConfetti() {
-            const moneyEmojis = ['💸', '💵', '💰', '💶', '💷', '🪙'];
-            const btn = document.getElementById('fetch-btn');
-            const rect = btn.getBoundingClientRect();
-            const cx = rect.left + rect.width / 2;
-            const cy = rect.top + rect.height / 2;
-            const count = isMobile ? 25 : 45;
+    // ======= FLOATING ELEMENTS =======
+    (function createFloaters() {
+        const cameras  = ['📷','📸','📹','Sony','α7','GM'];
+        const icons    = ['🌀','💣','🔫','🎯','💀','🔥','👌','😎'];
+        const camCount = isMobile ?  6 : 12;
+        const iconCount= isMobile ?  8 : 15;
+
+        function spawn(cls, texts, count, extraCSS) {
             for (let i = 0; i < count; i++) {
                 const el = document.createElement('div');
-                el.className = 'money-confetti';
-                el.textContent = moneyEmojis[Math.floor(Math.random() * moneyEmojis.length)];
-                el.style.left = cx + 'px';
-                el.style.top = cy + 'px';
-                const angle = Math.random() * Math.PI * 2;
-                const dist = 150 + Math.random() * 350;
-                const dx = Math.cos(angle) * dist;
-                const dy = Math.sin(angle) * dist - 150;
-                const rot = (Math.random() - 0.5) * 540;
-                const dur = 1.2 + Math.random() * 1.5;
-                el.style.setProperty('--dx', dx + 'px');
-                el.style.setProperty('--dy', dy + 'px');
-                el.style.setProperty('--rot', rot + 'deg');
-                el.style.animation = `moneyFall ${dur}s ease-out forwards`;
+                el.className = cls;
+                el.textContent = texts[rand(texts.length)];
+                Object.assign(el.style, {
+                    left: randF(0, 90) + '%',
+                    top:  randF(0, 90) + '%',
+                    animationDuration: extraCSS.dur(),
+                    animationDelay:    randF(0, extraCSS.delay) + 's',
+                    fontSize:          extraCSS.size ? extraCSS.size() : '1.5rem',
+                });
                 document.body.appendChild(el);
-                setTimeout(() => el.remove(), dur * 1000 + 100);
+            }
+        }
+        spawn('floating-camera', cameras, camCount, { dur: () => randF(15,35)+'s', delay:6, size: () => randF(1.8,4.3)+'rem' });
+        spawn('mlg-float',       icons,   iconCount, { dur: () => randF(4,12)+'s',  delay:4 });
+    })();
+
+    // ======= KILL FEED =======
+    const KILL_MSGS = ['xX_KUR_MI_Xx 🔫','MLG_QUICKSCOPE 👌','TRIPLE_COLLAT 💀',
+        'NO_SCOPE 🎯','GET_REKT 😎','MOM_CAMERA 📸','OH_BABY 🔥','420_BLAZE 🌿','DORITOS 🌯'];
+    const killFeed = $('killFeed');
+
+    function addKillFeed() {
+        const p = document.createElement('p');
+        p.textContent = KILL_MSGS[rand(KILL_MSGS.length)];
+        killFeed.appendChild(p);
+        if (killFeed.children.length > 3) killFeed.firstChild.remove();
+        setTimeout(() => p.remove(), 3000);
+    }
+    setInterval(addKillFeed, 3000);
+
+    // ======= COMBO / STREAK SYSTEM =======
+    const STREAK_TIERS = [
+        { min:0,  label:'NOOB',       color:'#aaa',  bar:0   },
+        { min:3,  label:'SKILLED',    color:'#0f0',  bar:20  },
+        { min:7,  label:'MLG',        color:'#0ff',  bar:45  },
+        { min:15, label:'PRO',        color:'#ff0',  bar:65  },
+        { min:25, label:'LEGENDARY',  color:'#f0f',  bar:85  },
+        { min:50, label:'💀 GOD 💀',  color:'#f00',  bar:100 },
+    ];
+    let combo = 0, comboTimer = null;
+    const comboEl    = $('combo-count');
+    const streakEl   = $('streak-label');
+    const streakBar  = $('streak-bar');
+    const comboDisp  = $('combo-display');
+
+    function updateCombo() {
+        combo++;
+        clearTimeout(comboTimer);
+        comboTimer = setTimeout(() => { combo = 0; renderCombo(); }, 8000);
+        renderCombo();
+        comboDisp.classList.remove('combo-burst');
+        void comboDisp.offsetWidth;
+        comboDisp.classList.add('combo-burst');
+    }
+    function renderCombo() {
+        comboEl.textContent = combo;
+        const tier = [...STREAK_TIERS].reverse().find(t => combo >= t.min) || STREAK_TIERS[0];
+        streakEl.textContent = tier.label;
+        streakEl.style.color = tier.color;
+        streakBar.style.width = tier.bar + '%';
+        streakBar.style.boxShadow = `0 0 8px ${tier.color}`;
+    }
+
+    // ======= EGGPLANT TRAIL (desktop only) =======
+    if (!isMobile) {
+        let lastEgg = 0;
+        document.addEventListener('mousemove', e => {
+            const now = Date.now();
+            if (now - lastEgg < 80) return;
+            lastEgg = now;
+            const el = Object.assign(document.createElement('div'), {
+                textContent: '🍆',
+                style: `position:fixed;left:${e.clientX-12}px;top:${e.clientY-20}px;
+                        font-size:1.6rem;pointer-events:none;z-index:9999;
+                        opacity:0.7;transition:all 0.4s;`
+            });
+            document.body.appendChild(el);
+            requestAnimationFrame(() => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(-25px) rotate(25deg)';
+            });
+            setTimeout(() => el.remove(), 450);
+        });
+    }
+
+    // ======= AUDIO =======
+    let audioCtx = null;
+    function getAudioCtx() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        return audioCtx;
+    }
+    function playAirhorn() {
+        const ctx = getAudioCtx(), now = ctx.currentTime;
+        const pairs = [
+            { type:'sawtooth', freq:[150,400,100], dur:0.7, vol:[0.25,0.4,0] },
+            { type:'square',   freq:[80, 250],     dur:0.5, vol:[0.15,0,0]   },
+        ];
+        for (const p of pairs) {
+            const osc = ctx.createOscillator(), gain = ctx.createGain();
+            osc.type = p.type;
+            osc.frequency.setValueAtTime(p.freq[0], now);
+            osc.frequency.linearRampToValueAtTime(p.freq[1], now + 0.2);
+            if (p.freq[2] != null) osc.frequency.linearRampToValueAtTime(p.freq[2], now + 0.6);
+            gain.gain.setValueAtTime(p.vol[0], now);
+            gain.gain.linearRampToValueAtTime(p.vol[1], now + 0.1);
+            gain.gain.linearRampToValueAtTime(p.vol[2], now + p.dur);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start(now); osc.stop(now + p.dur);
+        }
+    }
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            const u = new SpeechSynthesisUtterance(text);
+            u.rate = 1.4; u.pitch = 0.3; u.volume = 1;
+            speechSynthesis.speak(u);
+        }
+    }
+
+    // ======= YOUTUBE MUSIC =======
+    let musicStarted = false;
+
+    // Callback ТРЯБВА да е дефиниран преди скрипта - иначе race condition
+    window.onYouTubeIframeAPIReady = () => {
+        new YT.Player('yt-player', {
+            height: '1', width: '1',
+            videoId: 'PVITY6IyGEI',
+            playerVars: { autoplay: 1, controls: 0, loop: 1, playlist: 'PVITY6IyGEI' },
+            events: {
+                onReady: e => { e.target.setVolume(80); e.target.playVideo(); },
+                onError: e => { e.target.loadVideoById('l0U7XGNT1Tg'); }
+            }
+        });
+    };
+
+    function startMusic() {
+        if (musicStarted) return;
+        musicStarted = true;
+        const tag = Object.assign(document.createElement('script'), { src: 'https://www.youtube.com/iframe_api' });
+        document.head.appendChild(tag);
+    }
+
+    // ======= MEME SOURCES =======
+    // Reddit needs a CORS proxy. We try two proxies for resilience.
+    const CORS = 'https://corsproxy.io/?url=';
+
+    const REDDIT_SUBS = [
+        'r/memes/hot.json?limit=100',
+        'r/dankmemes/hot.json?limit=100',
+        'r/me_irl/hot.json?limit=100',
+        'r/bulgaria/hot.json?limit=100',
+        'r/2bulgar4you/hot.json?limit=100',
+        'r/AskBalkans/hot.json?limit=100',
+        'r/funny/hot.json?limit=100',
+    ];
+
+    // Giphy public beta key (works without login)
+    const GIPHY_KEY = 'dc6zaTOxFJmzC'; // Giphy public beta
+    const GIPHY_QUERIES = ['meme','funny','dank meme','fail','lol'];
+
+    // meme-api.com — reliable direct CORS
+    const MEMEAPI_SUBS = ['memes','dankmemes','me_irl','funny','bulgaria'];
+
+    // ---- parsers ----
+    function parseReddit(data) {
+        const posts = [];
+        if (!data?.data?.children) return posts;
+        for (const { data: p } of data.data.children) {
+            // prefer direct image url
+            let url = p.url_overridden_by_dest || p.url || '';
+            if (/\.(jpe?g|png|gif|gifv|webp)(\?.*)?$/i.test(url)) {
+                posts.push(url.replace(/\.gifv$/, '.gif'));
+            } else if (p.preview?.images?.[0]?.source?.url) {
+                posts.push(p.preview.images[0].source.url.replace(/&amp;/g, '&'));
+            }
+        }
+        return posts;
+    }
+    function parseGiphy(data) {
+        return (data?.data || []).map(g => g.images?.original?.url).filter(Boolean);
+    }
+    function parseMemeApi(data) {
+        return (data?.memes || []).map(m => m.url).filter(Boolean);
+    }
+
+    // ---- fetchers with timeout ----
+    async function fetchJSON(url, ms = 5000) {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), ms);
+        try {
+            const r = await fetch(url, { signal: ctrl.signal });
+            if (!r.ok) return null;
+            return await r.json();
+        } catch { return null; }
+        finally { clearTimeout(t); }
+    }
+
+    // Cache
+    let memePool = [];
+    let poolReady = null;
+
+    async function buildPool() {
+        const tasks = [];
+
+        // Reddit via CORS proxy
+        for (const sub of REDDIT_SUBS) {
+            tasks.push(
+                fetchJSON(CORS + encodeURIComponent('https://www.reddit.com/' + sub))
+                    .then(d => parseReddit(d))
+            );
+        }
+
+        // Giphy
+        for (const q of GIPHY_QUERIES) {
+            const url = `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_KEY}&q=${encodeURIComponent(q)}&limit=25&offset=${rand(50)}&rating=g`;
+            tasks.push(fetchJSON(url).then(d => parseGiphy(d)));
+        }
+
+        // meme-api.com
+        for (const sub of MEMEAPI_SUBS) {
+            tasks.push(fetchJSON(`https://meme-api.com/gimme/${sub}/20`).then(d => parseMemeApi(d)));
+        }
+        // bulk endpoint too
+        tasks.push(fetchJSON('https://meme-api.com/gimme/50').then(d => parseMemeApi(d)));
+
+        const results = await Promise.allSettled(tasks);
+        const seen = new Set();
+        for (const r of results) {
+            if (r.status !== 'fulfilled' || !r.value) continue;
+            for (const url of r.value) {
+                if (url && !seen.has(url)) { seen.add(url); memePool.push(url); }
             }
         }
 
-        function triggerMegaShake() {
-            document.body.classList.add('mega-shake');
-            setTimeout(() => document.body.classList.remove('mega-shake'), 500);
-            noScopeOverlay.classList.add('show');
-            setTimeout(() => noScopeOverlay.classList.remove('show'), 800);
+        // Shuffle pool so we don't always start from the same source
+        for (let i = memePool.length - 1; i > 0; i--) {
+            const j = rand(i + 1);
+            [memePool[i], memePool[j]] = [memePool[j], memePool[i]];
         }
 
-        document.getElementById('fetch-btn').addEventListener('click', () => {
-            fetchRandomMeme();
-            launchMoneyConfetti();
-            playAirhorn();
-            speak('Oh baby a triple');
-            triggerMegaShake();
-            startMusic();
-        });
+        console.log(`[MLG] Meme pool: ${memePool.length} images`);
+    }
 
-        // ========== POPUP ==========
-        const popupOverlay=document.getElementById('popup-overlay');
-        const popupText=document.getElementById('popup-text');
-        const popupBtn=document.getElementById('popup-btn');
-        function showPopup(){
-            popupOverlay.style.display='flex'; popupText.textContent='Онзи те търси'; popupBtn.style.display='inline-block';
-        }
-        function hidePopup(){ popupOverlay.style.display='none'; }
-        popupBtn.addEventListener('click', ()=>{
-            popupText.textContent='kuro moi'; popupBtn.style.display='none'; playAirhorn(); setTimeout(hidePopup,3000);
+    function ensurePool() {
+        if (!poolReady) poolReady = buildPool();
+        return poolReady;
+    }
+    if ('requestIdleCallback' in window) requestIdleCallback(ensurePool);
+    else setTimeout(ensurePool, 1000);
+
+    // ======= FETCH MEME =======
+    const labelDiv   = $('label');
+    const memeImg    = $('meme-img');
+    const loadingDiv = $('loading');
+    const PHRASES = ['НА ТИ КЪСМЕТ!!! 💣','MLG 360 🌀','МАЙКООО 😱','ЕВАЛА БРАТ 🔥','ТОП КЪСМЕТ 💎','МЕМЕ БОГ 🏆'];
+
+    let failedUrls = new Set();
+
+    function loadImgWithTimeout(url, ms = 8000) {
+        return new Promise((res, rej) => {
+            const t = setTimeout(() => { memeImg.src = ''; rej(new Error('timeout')); }, ms);
+            memeImg.onload  = () => { clearTimeout(t); res(); };
+            memeImg.onerror = () => { clearTimeout(t); rej(new Error('load error')); };
+            memeImg.src = url;
         });
-        function schedulePopup(){
-            setTimeout(()=>{
-                showPopup();
-                setTimeout(()=>{ if(popupOverlay.style.display==='flex') hidePopup(); },12000);
-                schedulePopup();
-            },12000+Math.random()*20000);
+    }
+
+    async function fetchRandomMeme(attempt = 0) {
+        if (attempt === 0) {
+            labelDiv.textContent = '';
+            memeImg.style.display = 'none';
+            memeImg.classList.remove('mlg-entry');
+            loadingDiv.style.display = 'block';
         }
-        schedulePopup();
+
+        await ensurePool();
+
+        // Get candidates that haven't failed
+        const candidates = memePool.filter(u => !failedUrls.has(u));
+
+        if (!candidates.length) {
+            // Pool exhausted — rebuild
+            memePool = []; poolReady = null; failedUrls.clear();
+            loadingDiv.style.display = 'none';
+            labelDiv.textContent = '⚠️ ПУЛЪТ Е ПРАЗЕН - РЕФРЕШ';
+            return;
+        }
+
+        const url = candidates[rand(candidates.length)];
+
+        try {
+            await loadImgWithTimeout(url);
+            memeImg.style.display = 'block';
+            loadingDiv.style.display = 'none';
+            void memeImg.offsetWidth;
+            memeImg.classList.add('mlg-entry');
+            labelDiv.textContent = PHRASES[rand(PHRASES.length)];
+        } catch {
+            failedUrls.add(url);
+            if (attempt < 8) {
+                // Try next candidate silently, no flicker
+                await fetchRandomMeme(attempt + 1);
+            } else {
+                loadingDiv.style.display = 'none';
+                labelDiv.textContent = '⚠️ ГРЕШКА - НАТИСНИ ПАК';
+            }
+        }
+    }
+
+    // ======= MONEY CONFETTI =======
+    function launchMoneyConfetti() {
+        const emojis = ['💸','💵','💰','💶','💷','🪙'];
+        const rect = $('fetch-btn').getBoundingClientRect();
+        const cx = rect.left + rect.width  / 2;
+        const cy = rect.top  + rect.height / 2;
+        const count = isMobile ? 25 : 45;
+        const frag = document.createDocumentFragment();
+        for (let i = 0; i < count; i++) {
+            const el = document.createElement('div');
+            el.className  = 'money-confetti';
+            el.textContent = emojis[rand(emojis.length)];
+            const angle = Math.random() * Math.PI * 2;
+            const dist  = randF(150, 500);
+            const dur   = randF(1.2, 2.7);
+            Object.assign(el.style, {
+                left: cx + 'px', top: cy + 'px',
+                '--dx': Math.cos(angle) * dist + 'px',
+                '--dy': Math.sin(angle) * dist - 150 + 'px',
+                '--rot': (Math.random() - 0.5) * 540 + 'deg',
+                animationDuration: dur + 's',
+            });
+            frag.appendChild(el);
+            setTimeout(() => el.remove(), dur * 1000 + 100);
+        }
+        document.body.appendChild(frag);
+    }
+
+    // ======= FX TRIGGERS =======
+    const noScope = $('no-scope-overlay');
+    function triggerMegaShake() {
+        document.body.classList.add('mega-shake');
+        setTimeout(() => document.body.classList.remove('mega-shake'), 500);
+        noScope.classList.remove('show');
+        void noScope.offsetWidth;
+        noScope.classList.add('show');
+        setTimeout(() => noScope.classList.remove('show'), 800);
+    }
+
+    $('fetch-btn').addEventListener('click', () => {
+        fetchRandomMeme();
+        launchMoneyConfetti();
+        playAirhorn();
+        speak('Oh baby a triple');
+        triggerMegaShake();
+        startMusic();
+        updateCombo();
+    });
+
+    // ======= POPUP =======
+    const popupOverlay = $('popup-overlay');
+    const popupText    = $('popup-text');
+    const popupBtn     = $('popup-btn');
+
+    function showPopup() {
+        popupOverlay.style.display = 'flex';
+        popupText.textContent = 'Онзи те търси';
+        popupBtn.style.display = 'inline-block';
+    }
+    function hidePopup() { popupOverlay.style.display = 'none'; }
+
+    popupBtn.addEventListener('click', () => {
+        popupText.textContent = 'kuro moi';
+        popupBtn.style.display = 'none';
+        playAirhorn();
+        setTimeout(hidePopup, 3000);
+    });
+
+    (function schedulePopup() {
+        setTimeout(() => {
+            showPopup();
+            const autoHide = setTimeout(hidePopup, 12000);
+            popupBtn.addEventListener('click', () => clearTimeout(autoHide), { once: true });
+            schedulePopup();
+        }, 12000 + Math.random() * 20000);
+    })();
     </script>
 </body>
 </html>
